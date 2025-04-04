@@ -1,0 +1,24 @@
+// This is a placeholder for an Xcode project file.
+// In a real iOS app, this would be an Xcode project file.
+// The project structure is as follows:
+
+/*
+VieApp/
+├── VieApp.swift (Main app entry point)
+├── Views/
+│   ├── SplashScreen.swift (Initial splash screen)
+│   ├── WelcomeScreen.swift (Welcome screen with deposit input)
+│   ├── DashboardScreen.swift (Main dashboard with tabs)
+│   │   ├── HomeTabView (Home tab content)
+│   │   ├── PaymentsTabView (Payments tab content)
+│   │   ├── RecordsTabView (Records tab content)
+│   │   └── AccountTabView (Account tab content)
+├── Models/
+│   └── FinancialModel.swift (Data model for financial information)
+└── Assets.xcassets/ (Image assets)
+    ├── AppIcon.appiconset/ (App icon)
+    ├── splashscreen.imageset/ (Splash screen background)
+    ├── vectorsmi.imageset/ (Green smile vector)
+    ├── groupie.imageset/ (Group image)
+    └── groupv.imageset/ (Group vector)
+*/
