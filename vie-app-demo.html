@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vie App Demo</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #004d40 0%, #008066 100%);
@@ -55,25 +56,17 @@
         .splash-screen {
             background-color: #000;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
+            position: relative;
         }
         
-        .splash-logo {
-            font-size: 60px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            animation: fadeInUp 1s ease-out;
-        }
-        
-        .splash-smile {
-            width: 100px;
-            height: 20px;
-            background-color: #00cc66;
-            border-radius: 50%;
-            animation: fadeInUp 1s ease-out 0.2s both;
+        .splash-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: fadeIn 1s ease-out;
         }
         
         @keyframes fadeInUp {
@@ -92,28 +85,17 @@
             background-color: white;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            padding: 0;
+            position: relative;
         }
         
         .welcome-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-        
-        .welcome-logo {
-            font-size: 40px;
-            font-weight: bold;
-            color: #008066;
-        }
-        
-        .welcome-smile {
-            width: 60px;
-            height: 12px;
-            background-color: #008066;
-            border-radius: 50%;
+            width: 100%;
+            height: 120px;
+            background-image: url('public/images/header.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
         }
         
         .welcome-title {
@@ -121,13 +103,14 @@
             font-weight: bold;
             margin-top: 20px;
             text-align: center;
+            font-family: 'Inter', sans-serif;
         }
         
         .input-section {
             margin-top: 40px;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 20px;
         }
         
         .input-group {
@@ -139,6 +122,7 @@
         .input-label {
             font-size: 16px;
             text-align: center;
+            font-family: 'Inter', sans-serif;
         }
         
         .input-field {
@@ -189,37 +173,34 @@
         /* Dashboard Screen */
         .dashboard-screen {
             background-color: #004d40;
+            background-image: url('public/images/dashboard-background.png');
+            background-size: cover;
+            background-position: center;
             display: flex;
             flex-direction: column;
             height: 100%;
         }
         
         .dashboard-header {
-            background-color: #008066;
-            padding: 20px 20px 10px;
+            width: 100%;
+            height: 120px;
+            background-image: url('public/images/header.png');
+            background-size: cover;
+            background-position: center;
             display: flex;
-            flex-direction: column;
             align-items: center;
-        }
-        
-        .dashboard-logo {
-            font-size: 30px;
-            font-weight: bold;
-            color: white;
-        }
-        
-        .dashboard-smile {
-            width: 40px;
-            height: 8px;
-            background-color: #00cc66;
-            border-radius: 50%;
-            margin-bottom: 10px;
+            justify-content: center;
+            position: relative;
         }
         
         .dashboard-title {
             font-size: 18px;
             color: white;
-            margin-top: 10px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            margin-top: 30px;
         }
         
         .dashboard-content {
@@ -255,16 +236,18 @@
         }
         
         .card-title {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 600;
             color: white;
             margin-bottom: 15px;
+            font-family: 'Inter', sans-serif;
         }
         
         .balance {
             font-size: 36px;
             font-weight: bold;
             color: white;
+            font-family: 'Inter', sans-serif;
         }
         
         .metrics-row {
@@ -282,11 +265,14 @@
             font-size: 14px;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 5px;
+            font-family: 'Inter', sans-serif;
         }
         
         .metric-value {
             font-size: 18px;
             color: white;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
         }
         
         .projection-table {
@@ -301,6 +287,7 @@
             color: rgba(255, 255, 255, 0.8);
             font-size: 14px;
             font-weight: normal;
+            font-family: 'Inter', sans-serif;
         }
         
         .projection-table td {
@@ -310,6 +297,7 @@
             background-color: rgba(0, 100, 80, 0.3);
             border-radius: 5px;
             margin-bottom: 2px;
+            font-family: 'Inter', sans-serif;
         }
         
         .projection-table tr {
@@ -335,6 +323,7 @@
             align-items: center;
             color: #999;
             font-size: 12px;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             padding: 8px 0;
@@ -364,9 +353,29 @@
         }
         
         .tab-icon {
-            font-size: 20px;
+            width: 24px;
+            height: 24px;
             margin-bottom: 4px;
             transition: all 0.3s ease;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .tab-icon.home {
+            background-image: url('public/images/huge-icon-interface-outline-home-04.png');
+        }
+        
+        .tab-icon.payments {
+            background-image: url('public/images/huge-icon-interface-outline-money.png');
+        }
+        
+        .tab-icon.records {
+            background-image: url('public/images/huge-icon-interface-outline-collection.png');
+        }
+        
+        .tab-icon.account {
+            background-image: url('public/images/huge-icon-interface-outline-user.png');
         }
         
         .tab:hover .tab-icon {
@@ -378,28 +387,22 @@
     <!-- Splash Screen -->
     <div class="phone">
         <div class="screen splash-screen" id="splashScreen">
-            <div class="splash-logo">vie</div>
-            <div class="splash-smile"></div>
+            <img src="public/images/splashscreen.png" class="splash-image" alt="Splash Screen">
         </div>
         
         <!-- Welcome Screen -->
         <div class="screen welcome-screen hidden" id="welcomeScreen">
-            <div class="welcome-header">
-                <div class="welcome-logo">vie</div>
-                <div class="welcome-smile"></div>
-            </div>
+            <div class="welcome-header"></div>
             
             <div class="welcome-title">Welcome to Vie!</div>
             
             <div class="input-section">
                 <div class="input-group">
-                    <div class="input-label">How much would you like to deposit initially?</div>
-                    <input type="text" class="input-field" id="initialDeposit" placeholder="$" value="10000">
-                </div>
-                
-                <div class="input-group">
                     <div class="input-label">How much would you like to deposit monthly?</div>
-                    <input type="text" class="input-field" id="monthlyDeposit" placeholder="$" value="2000">
+                    <div class="input-container" style="position: relative; height: 60px;">
+                        <img src="public/images/user-input.png" style="width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0;">
+                        <input type="text" class="input-field" id="monthlyDeposit" placeholder="$" value="2000" style="position: relative; z-index: 1; background: transparent; border: none; box-shadow: none;">
+                    </div>
                 </div>
             </div>
             
@@ -409,8 +412,6 @@
         <!-- Dashboard Screen -->
         <div class="screen dashboard-screen hidden" id="dashboardScreen">
             <div class="dashboard-header">
-                <div class="dashboard-logo">vie</div>
-                <div class="dashboard-smile"></div>
                 <div class="dashboard-title">Your Capital Account Explained</div>
             </div>
             
@@ -420,19 +421,19 @@
             
             <div class="tab-bar">
                 <div class="tab active" data-tab="home">
-                    <div class="tab-icon">🏠</div>
+                    <div class="tab-icon home"></div>
                     <div>Home</div>
                 </div>
                 <div class="tab" data-tab="payments">
-                    <div class="tab-icon">💳</div>
+                    <div class="tab-icon payments"></div>
                     <div>Payments</div>
                 </div>
                 <div class="tab" data-tab="records">
-                    <div class="tab-icon">📄</div>
+                    <div class="tab-icon records"></div>
                     <div>Records</div>
                 </div>
                 <div class="tab" data-tab="account">
-                    <div class="tab-icon">👤</div>
+                    <div class="tab-icon account"></div>
                     <div>Account</div>
                 </div>
             </div>
@@ -702,12 +703,12 @@
                 // Show loading animation
                 loading.style.display = 'block';
                 
-                const initialDeposit = parseFloat(initialDepositInput.value.replace(/[^0-9.-]+/g, '')) || 0;
                 const monthlyDeposit = parseFloat(monthlyDepositInput.value.replace(/[^0-9.-]+/g, '')) || 0;
                 
                 // Add a slight delay to simulate calculation
                 setTimeout(function() {
-                    financialModel.setInitialDeposit(initialDeposit);
+                    // Set a default initial deposit
+                    financialModel.setInitialDeposit(10000);
                     financialModel.setMonthlyDeposit(monthlyDeposit);
                     
                     dashboardContent.innerHTML = generateDashboardContent();
@@ -761,7 +762,7 @@
             });
             
             // Format input fields as currency
-            [initialDepositInput, monthlyDepositInput].forEach(input => {
+            [monthlyDepositInput].forEach(input => {
                 input.addEventListener('focus', function() {
                     this.value = this.value.replace(/[^0-9.-]+/g, '');
                 });

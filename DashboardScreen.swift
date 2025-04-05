@@ -11,32 +11,27 @@ struct DashboardScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             // Header
-            VStack(spacing: 10) {
-                // Logo
-                VStack(spacing: 0) {
-                    Text("vie")
-                        .font(.system(size: 30, weight: .bold))
-                        .foregroundColor(.white)
-                    
-                    // Green smile
-                    Image("vectorsmi")
-                        .resizable()
-                        .frame(width: 40, height: 8)
-                        .foregroundColor(.green)
-                }
-                .padding(.top, 20)
+            ZStack {
+                Image("header")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 120)
                 
+                // Using only the header image without custom logo
                 Text("Your Capital Account Explained")
-                    .font(.system(size: 18, weight: .medium))
+                    .font(.custom("Inter", size: 18).weight(.medium))
                     .foregroundColor(.white)
-                    .padding(.bottom, 10)
+                    .padding(.top, 60)
             }
             .frame(maxWidth: .infinity)
-            .background(primaryColor)
+            .frame(height: 120)
             
             // Main content area
             ZStack {
-                darkGreenColor.edgesIgnoringSafeArea(.all)
+                Image("dashboard-background")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .edgesIgnoringSafeArea(.all)
                 
                 // Content based on selected tab
                 VStack {
@@ -60,28 +55,28 @@ struct DashboardScreen: View {
             HStack(spacing: 0) {
                 TabButton(
                     title: "Home",
-                    systemImage: "house.fill",
+                    iconName: "huge-icon-interface-outline-home-04",
                     isSelected: selectedTab == 0,
                     action: { selectedTab = 0 }
                 )
                 
                 TabButton(
                     title: "Payments",
-                    systemImage: "creditcard.fill",
+                    iconName: "huge-icon-interface-outline-money",
                     isSelected: selectedTab == 1,
                     action: { selectedTab = 1 }
                 )
                 
                 TabButton(
                     title: "Records",
-                    systemImage: "doc.text.fill",
+                    iconName: "huge-icon-interface-outline-collection",
                     isSelected: selectedTab == 2,
                     action: { selectedTab = 2 }
                 )
                 
                 TabButton(
                     title: "Account",
-                    systemImage: "person.fill",
+                    iconName: "huge-icon-interface-outline-user",
                     isSelected: selectedTab == 3,
                     action: { selectedTab = 3 }
                 )
@@ -96,7 +91,7 @@ struct DashboardScreen: View {
 // Tab button component
 struct TabButton: View {
     let title: String
-    let systemImage: String
+    let iconName: String
     let isSelected: Bool
     let action: () -> Void
     
@@ -106,8 +101,10 @@ struct TabButton: View {
     var body: some View {
         Button(action: action) {
             VStack(spacing: 4) {
-                Image(systemName: systemImage)
-                    .font(.system(size: 20))
+                Image(iconName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 24, height: 24)
                 
                 Text(title)
                     .font(.system(size: 12))
@@ -127,13 +124,13 @@ struct HomeTabView: View {
             VStack(alignment: .leading, spacing: 20) {
                 // Account balance card
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Current Balance")
-                        .font(.headline)
-                        .foregroundColor(.white)
+                        Text("Current Balance")
+                            .font(.custom("Inter", size: 16).weight(.semibold))
+                            .foregroundColor(.white)
                     
-                    Text("$\(financialModel.accountBalance, specifier: "%.2f")")
-                        .font(.system(size: 36, weight: .bold))
-                        .foregroundColor(.white)
+                        Text("$\(financialModel.accountBalance, specifier: "%.2f")")
+                            .font(.custom("Inter", size: 36).weight(.bold))
+                            .foregroundColor(.white)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
@@ -143,17 +140,17 @@ struct HomeTabView: View {
                 // Dashboard metrics
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Account Summary")
-                        .font(.headline)
+                        .font(.custom("Inter", size: 16).weight(.semibold))
                         .foregroundColor(.white)
                     
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Total Deposits")
-                                .font(.subheadline)
+                                .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
                             Text("$\(financialModel.dashboardMetrics.totalDeposits, specifier: "%.2f")")
-                                .font(.title3)
+                                .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
                         
@@ -161,11 +158,11 @@ struct HomeTabView: View {
                         
                         VStack(alignment: .leading) {
                             Text("Total Withdrawals")
-                                .font(.subheadline)
+                                .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
                             Text("$\(financialModel.dashboardMetrics.totalWithdrawals, specifier: "%.2f")")
-                                .font(.title3)
+                                .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
                     }
@@ -201,17 +198,17 @@ struct HomeTabView: View {
                 // Growth projection
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Growth Projection")
-                        .font(.headline)
+                        .font(.custom("Inter", size: 16).weight(.semibold))
                         .foregroundColor(.white)
                     
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Projected Balance (10 Years)")
-                                .font(.subheadline)
+                                .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
                             Text("$\(financialModel.dashboardMetrics.projectedBalance, specifier: "%.2f")")
-                                .font(.title3)
+                                .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
                         
@@ -219,11 +216,11 @@ struct HomeTabView: View {
                         
                         VStack(alignment: .leading) {
                             Text("Total Growth")
-                                .font(.subheadline)
+                                .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
                             Text("$\(financialModel.dashboardMetrics.totalGrowth, specifier: "%.2f")")
-                                .font(.title3)
+                                .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
                     }
@@ -259,19 +256,19 @@ struct HomeTabView: View {
                 // Yearly projection table
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Yearly Projection")
-                        .font(.headline)
+                        .font(.custom("Inter", size: 16).weight(.semibold))
                         .foregroundColor(.white)
                         .padding(.bottom, 5)
                     
                     // Table header
                     HStack {
                         Text("Year")
-                            .font(.subheadline)
+                            .font(.custom("Inter", size: 14))
                             .foregroundColor(.white.opacity(0.8))
                             .frame(width: 60, alignment: .leading)
                         
                         Text("Balance")
-                            .font(.subheadline)
+                            .font(.custom("Inter", size: 14))
                             .foregroundColor(.white.opacity(0.8))
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     }
@@ -284,12 +281,12 @@ struct HomeTabView: View {
                             ForEach(financialModel.growthProjection) { projection in
                                 HStack {
                                     Text(projection.id)
-                                        .font(.system(size: 14))
+                                        .font(.custom("Inter", size: 14))
                                         .foregroundColor(.white)
                                         .frame(width: 60, alignment: .leading)
                                     
                                     Text("$\(projection.beginningCashValue, specifier: "%.2f")")
-                                        .font(.system(size: 14))
+                                        .font(.custom("Inter", size: 14))
                                         .foregroundColor(.white)
                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                 }

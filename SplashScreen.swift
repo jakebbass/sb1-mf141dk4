@@ -14,18 +14,7 @@ struct SplashScreen: View {
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
                 
-                // Logo overlay
-                VStack {
-                    Text("vie")
-                        .font(.system(size: 60, weight: .bold))
-                        .foregroundColor(.white)
-                    
-                    // Green smile
-                    Image("vectorsmi")
-                        .resizable()
-                        .frame(width: 100, height: 20)
-                        .foregroundColor(.green)
-                }
+                // No custom logo overlay - using only the provided splashscreen image
             }
             .onAppear {
                 // Automatically transition to welcome screen after 2 seconds
