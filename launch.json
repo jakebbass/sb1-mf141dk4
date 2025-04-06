@@ -1,0 +1,23 @@
+{
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Launch iOS App",
+      "program": "${workspaceFolder}/${input:selectProgram}",
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "pickString",
+      "id": "selectProgram",
+      "description": "Select the program to debug",
+      "options": [
+        "VieApp.xcodeproj",
+        "VieApp.swift"
+      ]
+    }
+  ]
+}
