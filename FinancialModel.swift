@@ -12,7 +12,21 @@ class FinancialModel: ObservableObject {
     
     // Constants for calculations
     private let initialVieDeposit: Double = 48000.0
-    private let annualGrowthRate: Double = 0.12 // 12% annual growth
+    
+    // Variable crediting rates based on Google Sheets schedule
+    private let creditingRates: [String: Double] = [
+        "YR00": 0.0,
+        "YR01": 0.12, // 12%
+        "YR02": 0.08, // 8%
+        "YR03": 0.04, // 4%
+        "YR04": 0.0,  // 0%
+        "YR05": 0.08, // 8%
+        "YR06": 0.08, // 8%
+        "YR07": 0.08, // 8%
+        "YR08": 0.08, // 8%
+        "YR09": 0.08, // 8%
+        "YR10": 0.08  // 8%
+    ]
     
     // Singleton instance for easy access throughout the app
     static let shared = FinancialModel()
@@ -146,8 +160,12 @@ class FinancialModel: ObservableObject {
         
         // Generate projection for 10 years
         for i in 1...10 {
+            // Get the crediting rate for the current year
+            let yearKey = "YR\(String(format: "%02d", i))"
+            let creditingRate = creditingRates[yearKey] ?? 0.08 // Default to 8% if not found
+            
             // Calculate growth for the year
-            let growth = currentBalance * annualGrowthRate
+            let growth = currentBalance * creditingRate
             
             // Add customer deposit
             currentBalance += annualDepositAmount
@@ -178,7 +196,8 @@ class FinancialModel: ObservableObject {
             // Update dashboard metrics
             dashboardMetrics.projectedBalance = latestProjection.beginningCashValue
             dashboardMetrics.totalYears = growthProjection.count - 1 // Exclude YR00
-            dashboardMetrics.annualGrowthRate = annualGrowthRate
+            // Use the first year's crediting rate for display
+            dashboardMetrics.annualGrowthRate = creditingRates["YR01"] ?? 0.12
             
             // Calculate total customer deposits
             let totalCustomerDeposits = growthProjection.reduce(0) { $0 + $1.customerDeposit }

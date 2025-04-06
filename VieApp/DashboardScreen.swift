@@ -12,30 +12,6 @@ struct DashboardScreen: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header
-            ZStack {
-                Image("header")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 140)
-                
-                // Using only the header image without custom logo
-                VStack {
-                    Text("Your Capital Account")
-                        .font(.custom("Inter", size: 22).weight(.bold))
-                        .foregroundColor(.white)
-                        .padding(.top, 40)
-                    
-                    Text("Explained")
-                        .font(.custom("Inter", size: 18).weight(.medium))
-                        .foregroundColor(.white.opacity(0.9))
-                        .padding(.top, 2)
-                }
-                .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 140)
-            
             // Main content area
             ZStack {
                 Image("dashboard-background")
@@ -200,6 +176,29 @@ struct HomeTabView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
+                // Header
+                ZStack {
+                    Image("header")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 140)
+                    
+                    // Using only the header image without custom logo
+                    VStack {
+                        Text("Your Capital Account")
+                            .font(.custom("Inter", size: 22).weight(.bold))
+                            .foregroundColor(.white)
+                            .padding(.top, 40)
+                        
+                        Text("Explained")
+                            .font(.custom("Inter", size: 18).weight(.medium))
+                            .foregroundColor(.white.opacity(0.9))
+                            .padding(.top, 2)
+                    }
+                    .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 140)
                 // Account balance card
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Current Balance")
@@ -469,6 +468,29 @@ struct PaymentsTabView: View {
             // Payment history
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
+                    // Header
+                    ZStack {
+                        Image("header")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 140)
+                        
+                        // Using only the header image without custom logo
+                        VStack {
+                            Text("Your Capital Account")
+                                .font(.custom("Inter", size: 22).weight(.bold))
+                                .foregroundColor(.white)
+                                .padding(.top, 40)
+                            
+                            Text("Explained")
+                                .font(.custom("Inter", size: 18).weight(.medium))
+                                .foregroundColor(.white.opacity(0.9))
+                                .padding(.top, 2)
+                        }
+                        .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 140)
                     Text("Recent Transactions")
                         .font(.headline)
                         .foregroundColor(.white)
@@ -601,6 +623,29 @@ struct RecordsTabView: View {
             // All transactions
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
+                    // Header
+                    ZStack {
+                        Image("header")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 140)
+                        
+                        // Using only the header image without custom logo
+                        VStack {
+                            Text("Your Capital Account")
+                                .font(.custom("Inter", size: 22).weight(.bold))
+                                .foregroundColor(.white)
+                                .padding(.top, 40)
+                            
+                            Text("Explained")
+                                .font(.custom("Inter", size: 18).weight(.medium))
+                                .foregroundColor(.white.opacity(0.9))
+                                .padding(.top, 2)
+                        }
+                        .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 140)
                     Text("All Transactions")
                         .font(.headline)
                         .foregroundColor(.white)
@@ -631,6 +676,29 @@ struct AccountTabView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                // Header
+                ZStack {
+                    Image("header")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 140)
+                    
+                    // Using only the header image without custom logo
+                    VStack {
+                        Text("Your Capital Account")
+                            .font(.custom("Inter", size: 22).weight(.bold))
+                            .foregroundColor(.white)
+                            .padding(.top, 40)
+                        
+                        Text("Explained")
+                            .font(.custom("Inter", size: 18).weight(.medium))
+                            .foregroundColor(.white.opacity(0.9))
+                            .padding(.top, 2)
+                    }
+                    .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 140)
                 // Account info
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Account Information")
