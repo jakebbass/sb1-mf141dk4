@@ -12,6 +12,30 @@ struct DashboardScreen: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            // Header
+            ZStack {
+                Image("header")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 140)
+                
+                // Using only the header image without custom logo
+                VStack {
+                    Text("Your Capital Account")
+                        .font(.custom("Inter", size: 22).weight(.bold))
+                        .foregroundColor(.white)
+                        .padding(.top, 40)
+                    
+                    Text("Explained")
+                        .font(.custom("Inter", size: 18).weight(.medium))
+                        .foregroundColor(.white.opacity(0.9))
+                        .padding(.top, 2)
+                }
+                .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 140)
+            
             // Main content area
             ZStack {
                 Image("dashboard-background")
@@ -176,36 +200,13 @@ struct HomeTabView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Header
-                ZStack {
-                    Image("header")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 140)
-                    
-                    // Using only the header image without custom logo
-                    VStack {
-                        Text("Your Capital Account")
-                            .font(.custom("Inter", size: 22).weight(.bold))
-                            .foregroundColor(.white)
-                            .padding(.top, 40)
-                        
-                        Text("Explained")
-                            .font(.custom("Inter", size: 18).weight(.medium))
-                            .foregroundColor(.white.opacity(0.9))
-                            .padding(.top, 2)
-                    }
-                    .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 140)
                 // Account balance card
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Current Balance")
                         .font(.custom("Inter", size: 20).weight(.semibold))
                         .foregroundColor(.white)
                     
-                    Text("$\(financialModel.accountBalance, specifier: "%.2f")")
+                    Text("$" + String(format: "%.2f", financialModel.accountBalance))
                         .font(.custom("Inter", size: 36).weight(.bold))
                         .foregroundColor(.white)
                 }
@@ -232,7 +233,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$\(financialModel.dashboardMetrics.totalDeposits, specifier: "%.2f")")
+                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalDeposits))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -244,7 +245,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$\(financialModel.dashboardMetrics.totalWithdrawals, specifier: "%.2f")")
+                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalWithdrawals))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -260,7 +261,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$\(financialModel.dashboardMetrics.totalInterest, specifier: "%.2f")")
+                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalInterest))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -272,7 +273,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$\(financialModel.dashboardMetrics.totalFees, specifier: "%.2f")")
+                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalFees))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -300,7 +301,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$\(financialModel.dashboardMetrics.projectedBalance, specifier: "%.2f")")
+                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.projectedBalance))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -312,7 +313,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$\(financialModel.dashboardMetrics.totalGrowth, specifier: "%.2f")")
+                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalGrowth))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -330,7 +331,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$\(financialModel.dashboardMetrics.totalCustomerDeposits, specifier: "%.2f")")
+                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalCustomerDeposits))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -380,7 +381,7 @@ struct HomeTabView: View {
                                         .foregroundColor(.white)
                                         .frame(width: 60, alignment: .leading)
                                     
-                                    Text("$\(projection.beginningCashValue, specifier: "%.2f")")
+                                    Text("$" + String(format: "%.2f", projection.beginningCashValue))
                                         .font(.custom("Inter", size: 14))
                                         .foregroundColor(.white)
                                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -430,33 +431,11 @@ struct PaymentsTabView: View {
             // Payment history
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
-                    // Header
-                    ZStack {
-                        Image("header")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 140)
-                        
-                        // Using only the header image without custom logo
-                        VStack {
-                            Text("Your Capital Account")
-                                .font(.custom("Inter", size: 22).weight(.bold))
-                                .foregroundColor(.white)
-                                .padding(.top, 40)
-                            
-                            Text("Explained")
-                                .font(.custom("Inter", size: 18).weight(.medium))
-                                .foregroundColor(.white.opacity(0.9))
-                                .padding(.top, 2)
-                        }
-                        .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 140)
                     Text("Recent Transactions")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding(.horizontal)
+                        .padding(.top, 20)
                     
                     ForEach(financialModel.transactions.filter { $0.type == .deposit || $0.type == .withdrawal }) { transaction in
                         TransactionRow(transaction: transaction)
@@ -573,7 +552,7 @@ struct TransactionRow: View {
     
     private func formattedAmount(_ transaction: Transaction) -> String {
         let prefix = transaction.type == .deposit || transaction.type == .interest ? "+" : "-"
-        return "\(prefix)$\(transaction.amount, specifier: "%.2f")"
+        return "\(prefix)$" + String(format: "%.2f", transaction.amount)
     }
 }
 
@@ -585,33 +564,11 @@ struct RecordsTabView: View {
             // All transactions
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
-                    // Header
-                    ZStack {
-                        Image("header")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 140)
-                        
-                        // Using only the header image without custom logo
-                        VStack {
-                            Text("Your Capital Account")
-                                .font(.custom("Inter", size: 22).weight(.bold))
-                                .foregroundColor(.white)
-                                .padding(.top, 40)
-                            
-                            Text("Explained")
-                                .font(.custom("Inter", size: 18).weight(.medium))
-                                .foregroundColor(.white.opacity(0.9))
-                                .padding(.top, 2)
-                        }
-                        .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 140)
                     Text("All Transactions")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding(.horizontal)
+                        .padding(.top, 20)
                     
                     ForEach(financialModel.transactions) { transaction in
                         TransactionRow(transaction: transaction)
@@ -638,40 +595,18 @@ struct AccountTabView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Header
-                ZStack {
-                    Image("header")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 140)
-                    
-                    // Using only the header image without custom logo
-                    VStack {
-                        Text("Your Capital Account")
-                            .font(.custom("Inter", size: 22).weight(.bold))
-                            .foregroundColor(.white)
-                            .padding(.top, 40)
-                        
-                        Text("Explained")
-                            .font(.custom("Inter", size: 18).weight(.medium))
-                            .foregroundColor(.white.opacity(0.9))
-                            .padding(.top, 2)
-                    }
-                    .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 140)
                 // Account info
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Account Information")
                         .font(.headline)
                         .foregroundColor(.white)
+                        .padding(.top, 20)
                     
                     HStack {
                         Text("Account Balance:")
                             .foregroundColor(.white.opacity(0.8))
                         Spacer()
-                        Text("$\(financialModel.accountBalance, specifier: "%.2f")")
+                        Text("$" + String(format: "%.2f", financialModel.accountBalance))
                             .foregroundColor(.white)
                     }
                     
@@ -679,7 +614,7 @@ struct AccountTabView: View {
                         Text("Initial Deposit:")
                             .foregroundColor(.white.opacity(0.8))
                         Spacer()
-                        Text("$\(financialModel.depositAmount, specifier: "%.2f")")
+                        Text("$" + String(format: "%.2f", financialModel.depositAmount))
                             .foregroundColor(.white)
                     }
                     
@@ -692,7 +627,7 @@ struct AccountTabView: View {
                     }
                 }
                 .padding()
-                .background(Color(red: 0, green: 0.4, blue: 0.35))
+                .background(Color.white.opacity(0.05))
                 .cornerRadius(10)
                 
                 // Connect to spreadsheet button
