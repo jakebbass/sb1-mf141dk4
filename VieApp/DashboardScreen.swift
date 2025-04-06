@@ -405,7 +405,7 @@ struct HomeTabView: View {
                     // Table rows
                     ScrollView {
                         VStack(spacing: 8) {
-                            ForEach(financialModel.growthProjection) { projection in
+                            ForEach(financialModel.growthProjection, id: \.id) { projection in
                                 HStack {
                                     Text(projection.id)
                                         .font(.custom("Inter", size: 14))
