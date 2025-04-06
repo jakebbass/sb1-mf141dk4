@@ -202,7 +202,7 @@ struct HomeTabView: View {
                 // Account balance card
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Current Balance")
-                        .font(.custom("Inter", size: 16).weight(.semibold))
+                        .font(.custom("Inter", size: 20).weight(.semibold))
                         .foregroundColor(.white)
                     
                     Text("$\(financialModel.accountBalance, specifier: "%.2f")")
@@ -212,14 +212,7 @@ struct HomeTabView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(20)
                 .background(
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color(red: 0, green: 0.45, blue: 0.4),
-                            Color(red: 0, green: 0.35, blue: 0.3)
-                        ]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
+                    Color.white.opacity(0.05)
                 )
                 .cornerRadius(16)
                 .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
@@ -230,7 +223,7 @@ struct HomeTabView: View {
                 // Dashboard metrics
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Account Summary")
-                        .font(.custom("Inter", size: 16).weight(.semibold))
+                        .font(.custom("Inter", size: 20).weight(.semibold))
                         .foregroundColor(.white)
                     
                     HStack {
@@ -246,7 +239,7 @@ struct HomeTabView: View {
                         
                         Spacer()
                         
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .trailing) {
                             Text("Total Withdrawals")
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
@@ -274,7 +267,7 @@ struct HomeTabView: View {
                         
                         Spacer()
                         
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .trailing) {
                             Text("Fees Paid")
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
@@ -287,14 +280,7 @@ struct HomeTabView: View {
                 }
                 .padding(20)
                 .background(
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color(red: 0, green: 0.4, blue: 0.35),
-                            Color(red: 0, green: 0.3, blue: 0.25)
-                        ]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
+                    Color.white.opacity(0.05)
                 )
                 .cornerRadius(16)
                 .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
@@ -305,7 +291,7 @@ struct HomeTabView: View {
                 // Growth projection
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Growth Projection")
-                        .font(.custom("Inter", size: 16).weight(.semibold))
+                        .font(.custom("Inter", size: 20).weight(.semibold))
                         .foregroundColor(.white)
                     
                     HStack {
@@ -321,7 +307,7 @@ struct HomeTabView: View {
                         
                         Spacer()
                         
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .trailing) {
                             Text("Total Growth")
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
@@ -337,19 +323,9 @@ struct HomeTabView: View {
                         .padding(.vertical, 8)
                     
                     HStack {
-                        VStack(alignment: .leading) {
-                            Text("Annual Growth Rate")
-                                .font(.custom("Inter", size: 14))
-                                .foregroundColor(.white.opacity(0.8))
-                            
-                            Text("\(financialModel.dashboardMetrics.annualGrowthRate * 100, specifier: "%.1f")%")
-                                .font(.custom("Inter", size: 18).weight(.medium))
-                                .foregroundColor(.white)
-                        }
-                        
                         Spacer()
                         
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .trailing) {
                             Text("Total Customer Deposits")
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
@@ -362,14 +338,7 @@ struct HomeTabView: View {
                 }
                 .padding(20)
                 .background(
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color(red: 0, green: 0.4, blue: 0.35),
-                            Color(red: 0, green: 0.3, blue: 0.25)
-                        ]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
+                    Color.white.opacity(0.05)
                 )
                 .cornerRadius(16)
                 .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
@@ -380,7 +349,7 @@ struct HomeTabView: View {
                 // Yearly projection table
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Yearly Projection")
-                        .font(.custom("Inter", size: 16).weight(.semibold))
+                        .font(.custom("Inter", size: 20).weight(.semibold))
                         .foregroundColor(.white)
                         .padding(.bottom, 5)
                     
@@ -427,14 +396,7 @@ struct HomeTabView: View {
                 }
                 .padding(20)
                 .background(
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color(red: 0, green: 0.4, blue: 0.35),
-                            Color(red: 0, green: 0.3, blue: 0.25)
-                        ]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
+                    Color.white.opacity(0.05)
                 )
                 .cornerRadius(16)
                 .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
