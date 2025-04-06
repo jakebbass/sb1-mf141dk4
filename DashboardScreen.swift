@@ -2,10 +2,12 @@ import SwiftUI
 
 struct DashboardScreen: View {
     @State private var selectedTab = 0
+    @State private var tabChangeAnimation = false
     @ObservedObject private var financialModel = FinancialModel.shared
     
     // Define the app's colors
     let primaryColor = Color(red: 0, green: 0.5, blue: 0.4)
+    let secondaryColor = Color(red: 0, green: 0.6, blue: 0.5)
     let darkGreenColor = Color(red: 0, green: 0.3, blue: 0.25)
     
     var body: some View {
@@ -15,16 +17,24 @@ struct DashboardScreen: View {
                 Image("header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(height: 120)
+                    .frame(height: 140)
                 
                 // Using only the header image without custom logo
-                Text("Your Capital Account Explained")
-                    .font(.custom("Inter", size: 18).weight(.medium))
-                    .foregroundColor(.white)
-                    .padding(.top, 60)
+                VStack {
+                    Text("Your Capital Account")
+                        .font(.custom("Inter", size: 22).weight(.bold))
+                        .foregroundColor(.white)
+                        .padding(.top, 40)
+                    
+                    Text("Explained")
+                        .font(.custom("Inter", size: 18).weight(.medium))
+                        .foregroundColor(.white.opacity(0.9))
+                        .padding(.top, 2)
+                }
+                .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 120)
+            .frame(height: 140)
             
             // Main content area
             ZStack {
@@ -33,109 +43,190 @@ struct DashboardScreen: View {
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
                 
-                // Content based on selected tab
-                VStack {
+                // Content based on selected tab with transition
+                ZStack {
                     switch selectedTab {
                     case 0:
                         HomeTabView()
+                            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                            .id("home-\(tabChangeAnimation)")
                     case 1:
                         PaymentsTabView()
+                            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                            .id("payments-\(tabChangeAnimation)")
                     case 2:
                         RecordsTabView()
+                            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                            .id("records-\(tabChangeAnimation)")
                     case 3:
                         AccountTabView()
+                            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                            .id("account-\(tabChangeAnimation)")
                     default:
                         HomeTabView()
+                            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                            .id("default-\(tabChangeAnimation)")
                     }
                 }
+                .animation(.easeInOut(duration: 0.3), value: tabChangeAnimation)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            // Tab bar
+            // Tab bar with glass effect
             HStack(spacing: 0) {
                 TabButton(
                     title: "Home",
                     iconName: "huge-icon-interface-outline-home-04",
                     isSelected: selectedTab == 0,
-                    action: { selectedTab = 0 }
+                    action: { 
+                        withAnimation {
+                            selectedTab = 0
+                            tabChangeAnimation.toggle()
+                        }
+                    }
                 )
                 
                 TabButton(
                     title: "Payments",
                     iconName: "huge-icon-interface-outline-money",
                     isSelected: selectedTab == 1,
-                    action: { selectedTab = 1 }
+                    action: { 
+                        withAnimation {
+                            selectedTab = 1
+                            tabChangeAnimation.toggle()
+                        }
+                    }
                 )
                 
                 TabButton(
                     title: "Records",
                     iconName: "huge-icon-interface-outline-collection",
                     isSelected: selectedTab == 2,
-                    action: { selectedTab = 2 }
+                    action: { 
+                        withAnimation {
+                            selectedTab = 2
+                            tabChangeAnimation.toggle()
+                        }
+                    }
                 )
                 
                 TabButton(
                     title: "Account",
                     iconName: "huge-icon-interface-outline-user",
                     isSelected: selectedTab == 3,
-                    action: { selectedTab = 3 }
+                    action: { 
+                        withAnimation {
+                            selectedTab = 3
+                            tabChangeAnimation.toggle()
+                        }
+                    }
                 )
             }
-            .frame(height: 60)
-            .background(Color.white)
+            .frame(height: 70)
+            .background(
+                ZStack {
+                    Color.white
+                    
+                    // Subtle gradient overlay
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.white.opacity(0.9), Color.white]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                }
+            )
+            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: -4)
         }
         .edgesIgnoringSafeArea(.bottom)
     }
 }
 
-// Tab button component
+// Tab button component with improved visuals
 struct TabButton: View {
     let title: String
     let iconName: String
     let isSelected: Bool
     let action: () -> Void
     
-    // Define the app's primary color
+    // Define the app's colors
     let primaryColor = Color(red: 0, green: 0.5, blue: 0.4)
+    let secondaryColor = Color(red: 0, green: 0.6, blue: 0.5)
     
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 4) {
+            VStack(spacing: 6) {
                 Image(iconName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
+                    .frame(width: 26, height: 26)
+                    .foregroundColor(isSelected ? primaryColor : .gray.opacity(0.6))
                 
                 Text(title)
-                    .font(.system(size: 12))
+                    .font(.custom("Inter", size: 12).weight(isSelected ? .medium : .regular))
+                    .foregroundColor(isSelected ? primaryColor : .gray.opacity(0.6))
             }
-            .foregroundColor(isSelected ? primaryColor : .gray)
+            .padding(.vertical, 8)
             .frame(maxWidth: .infinity)
+            .background(
+                ZStack {
+                    if isSelected {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(primaryColor.opacity(0.1))
+                            .frame(width: 70, height: 50)
+                            .transition(.scale.combined(with: .opacity))
+                    }
+                }
+                .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
+            )
         }
+        .buttonStyle(TabButtonStyle())
     }
 }
 
-// Tab views with actual content
+// Custom button style for tab buttons
+struct TabButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: configuration.isPressed)
+    }
+}
+
+// Tab views with improved content
 struct HomeTabView: View {
     @ObservedObject private var financialModel = FinancialModel.shared
+    @State private var animateCards = false
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 // Account balance card
                 VStack(alignment: .leading, spacing: 10) {
-                        Text("Current Balance")
-                            .font(.custom("Inter", size: 16).weight(.semibold))
-                            .foregroundColor(.white)
+                    Text("Current Balance")
+                        .font(.custom("Inter", size: 16).weight(.semibold))
+                        .foregroundColor(.white)
                     
-                        Text("$\(financialModel.accountBalance, specifier: "%.2f")")
-                            .font(.custom("Inter", size: 36).weight(.bold))
-                            .foregroundColor(.white)
+                    Text("$\(financialModel.accountBalance, specifier: "%.2f")")
+                        .font(.custom("Inter", size: 36).weight(.bold))
+                        .foregroundColor(.white)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .background(Color(red: 0, green: 0.4, blue: 0.35))
-                .cornerRadius(10)
+                .padding(20)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 0, green: 0.45, blue: 0.4),
+                            Color(red: 0, green: 0.35, blue: 0.3)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .cornerRadius(16)
+                .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
+                .offset(y: animateCards ? 0 : 20)
+                .opacity(animateCards ? 1 : 0)
+                .animation(Animation.spring(response: 0.5, dampingFraction: 0.8).delay(0.1), value: animateCards)
                 
                 // Dashboard metrics
                 VStack(alignment: .leading, spacing: 15) {
@@ -167,14 +258,18 @@ struct HomeTabView: View {
                         }
                     }
                     
+                    Divider()
+                        .background(Color.white.opacity(0.2))
+                        .padding(.vertical, 8)
+                    
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Interest Earned")
-                                .font(.subheadline)
+                                .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
                             Text("$\(financialModel.dashboardMetrics.totalInterest, specifier: "%.2f")")
-                                .font(.title3)
+                                .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
                         
@@ -182,18 +277,31 @@ struct HomeTabView: View {
                         
                         VStack(alignment: .leading) {
                             Text("Fees Paid")
-                                .font(.subheadline)
+                                .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
                             Text("$\(financialModel.dashboardMetrics.totalFees, specifier: "%.2f")")
-                                .font(.title3)
+                                .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
                     }
                 }
-                .padding()
-                .background(Color(red: 0, green: 0.4, blue: 0.35))
-                .cornerRadius(10)
+                .padding(20)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 0, green: 0.4, blue: 0.35),
+                            Color(red: 0, green: 0.3, blue: 0.25)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .cornerRadius(16)
+                .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
+                .offset(y: animateCards ? 0 : 20)
+                .opacity(animateCards ? 1 : 0)
+                .animation(Animation.spring(response: 0.5, dampingFraction: 0.8).delay(0.2), value: animateCards)
                 
                 // Growth projection
                 VStack(alignment: .leading, spacing: 15) {
@@ -225,14 +333,18 @@ struct HomeTabView: View {
                         }
                     }
                     
+                    Divider()
+                        .background(Color.white.opacity(0.2))
+                        .padding(.vertical, 8)
+                    
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Annual Growth Rate")
-                                .font(.subheadline)
+                                .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
                             Text("\(financialModel.dashboardMetrics.annualGrowthRate * 100, specifier: "%.1f")%")
-                                .font(.title3)
+                                .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
                         
@@ -240,18 +352,31 @@ struct HomeTabView: View {
                         
                         VStack(alignment: .leading) {
                             Text("Total Customer Deposits")
-                                .font(.subheadline)
+                                .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
                             Text("$\(financialModel.dashboardMetrics.totalCustomerDeposits, specifier: "%.2f")")
-                                .font(.title3)
+                                .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
                     }
                 }
-                .padding()
-                .background(Color(red: 0, green: 0.4, blue: 0.35))
-                .cornerRadius(10)
+                .padding(20)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 0, green: 0.4, blue: 0.35),
+                            Color(red: 0, green: 0.3, blue: 0.25)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .cornerRadius(16)
+                .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
+                .offset(y: animateCards ? 0 : 20)
+                .opacity(animateCards ? 1 : 0)
+                .animation(Animation.spring(response: 0.5, dampingFraction: 0.8).delay(0.3), value: animateCards)
                 
                 // Yearly projection table
                 VStack(alignment: .leading, spacing: 15) {
@@ -263,21 +388,23 @@ struct HomeTabView: View {
                     // Table header
                     HStack {
                         Text("Year")
-                            .font(.custom("Inter", size: 14))
-                            .foregroundColor(.white.opacity(0.8))
+                            .font(.custom("Inter", size: 14).weight(.medium))
+                            .foregroundColor(.white.opacity(0.9))
                             .frame(width: 60, alignment: .leading)
                         
                         Text("Balance")
-                            .font(.custom("Inter", size: 14))
-                            .foregroundColor(.white.opacity(0.8))
+                            .font(.custom("Inter", size: 14).weight(.medium))
+                            .foregroundColor(.white.opacity(0.9))
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
+                    .padding(.horizontal, 15)
+                    .padding(.vertical, 10)
+                    .background(Color.white.opacity(0.1))
+                    .cornerRadius(8)
                     
                     // Table rows
                     ScrollView {
-                        VStack(spacing: 10) {
+                        VStack(spacing: 8) {
                             ForEach(financialModel.growthProjection) { projection in
                                 HStack {
                                     Text(projection.id)
@@ -290,20 +417,43 @@ struct HomeTabView: View {
                                         .foregroundColor(.white)
                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                 }
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 5)
-                                .background(Color(red: 0, green: 0.45, blue: 0.4).opacity(0.3))
-                                .cornerRadius(5)
+                                .padding(.horizontal, 15)
+                                .padding(.vertical, 12)
+                                .background(Color.white.opacity(0.05))
+                                .cornerRadius(8)
                             }
                         }
                     }
-                    .frame(height: 200)
+                    .frame(height: 220)
                 }
-                .padding()
-                .background(Color(red: 0, green: 0.4, blue: 0.35))
-                .cornerRadius(10)
+                .padding(20)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 0, green: 0.4, blue: 0.35),
+                            Color(red: 0, green: 0.3, blue: 0.25)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .cornerRadius(16)
+                .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
+                .offset(y: animateCards ? 0 : 20)
+                .opacity(animateCards ? 1 : 0)
+                .animation(Animation.spring(response: 0.5, dampingFraction: 0.8).delay(0.4), value: animateCards)
             }
-            .padding()
+            .padding(16)
+        }
+        .onAppear {
+            // Trigger animations when view appears
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                animateCards = true
+            }
+        }
+        .onDisappear {
+            // Reset animation state when view disappears
+            animateCards = false
         }
     }
 }
