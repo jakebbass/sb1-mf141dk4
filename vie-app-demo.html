@@ -351,12 +351,6 @@
             margin: 15px 0;
         }
         
-        .projection-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        
         .table-header {
             display: flex;
             justify-content: space-between;
@@ -392,20 +386,6 @@
             max-height: 220px;
             overflow-y: auto;
             padding-right: 5px;
-        }
-        
-        .table-container::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .table-container::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 3px;
-        }
-        
-        .table-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
         }
         
         .tab-bar {
@@ -563,7 +543,7 @@
                     <div class="input-label">How much would you like to deposit monthly?</div>
                     <div class="input-container">
                         <img src="public/images/user-input.png" class="user-input-image" alt="User input background">
-                        <input type="text" class="input-field" id="monthlyDeposit" placeholder="" value="2000">
+                        <input type="text" class="input-field" id="monthlyDeposit" placeholder="Enter amount" value="2000" title="Monthly deposit amount">
                         <div class="dollar-sign" id="dollarSign">$</div>
                     </div>
                 </div>
@@ -610,181 +590,9 @@
         </div>
     </div>
 
-    <div class="title-container">
-        <div class="title">Vie Financial App</div>
-        <div class="subtitle">Interactive Demo</div>
-    </div>
-    
-    <div class="instructions">
-        Try entering different deposit amounts and see how they affect your financial projections
-    </div>
+    <!-- Title and instructions removed to fix the white screen issue -->
     
     <script>
-        // Financial calculation model
-        class FinancialModel {
-            constructor() {
-                this.initialDeposit = 0;
-                this.monthlyDeposit = 0;
-                this.vieDeposit = 48000;
-                this.annualGrowthRate = 0.12;
-                this.accountBalance = 0;
-                this.growthProjection = [];
-            }
-            
-            setInitialDeposit(amount) {
-                this.initialDeposit = amount;
-                this.accountBalance = amount + this.vieDeposit;
-                this.generateGrowthProjection();
-            }
-            
-            setMonthlyDeposit(amount) {
-                this.monthlyDeposit = amount;
-                this.generateGrowthProjection();
-            }
-            
-            generateGrowthProjection() {
-                this.growthProjection = [];
-                
-                // Calculate annual deposit amount
-                const annualDepositAmount = this.monthlyDeposit * 12;
-                
-                // Initial values
-                let currentBalance = this.accountBalance;
-                const currentYear = new Date().getFullYear();
-                
-                // Add initial year (YR00)
-                this.growthProjection.push({
-                    id: "YR00",
-                    year: currentYear,
-                    beginningCashValue: currentBalance,
-                    vieDeposit: this.vieDeposit,
-                    customerDeposit: this.initialDeposit
-                });
-                
-                // Generate projection for 10 years
-                for (let i = 1; i <= 10; i++) {
-                    // Calculate growth for the year
-                    const growth = currentBalance * this.annualGrowthRate;
-                    
-                    // Add customer deposit
-                    currentBalance += annualDepositAmount;
-                    
-                    // Add growth
-                    currentBalance += growth;
-                    
-                    // Add to projection
-                    this.growthProjection.push({
-                        id: `YR${i.toString().padStart(2, '0')}`,
-                        year: currentYear + i,
-                        beginningCashValue: currentBalance,
-                        vieDeposit: 0, // Only initial deposit
-                        customerDeposit: annualDepositAmount
-                    });
-                }
-                
-                return this.growthProjection;
-            }
-            
-            getDashboardMetrics() {
-                if (this.growthProjection.length === 0) {
-                    return null;
-                }
-                
-                // Get the latest projection
-                const latestProjection = this.growthProjection[this.growthProjection.length - 1];
-                
-                // Calculate total customer deposits
-                const totalCustomerDeposits = this.growthProjection.reduce((sum, proj) => sum + proj.customerDeposit, 0);
-                
-                // Calculate total growth
-                const totalGrowth = latestProjection.beginningCashValue - totalCustomerDeposits - this.vieDeposit;
-                
-                return {
-                    currentBalance: this.accountBalance,
-                    projectedBalance: latestProjection.beginningCashValue,
-                    totalYears: this.growthProjection.length - 1,
-                    annualGrowthRate: this.annualGrowthRate,
-                    totalCustomerDeposits: totalCustomerDeposits,
-                    totalGrowth: totalGrowth
-                };
-            }
-        }
-        
-        // Initialize the financial model
-        const financialModel = new FinancialModel();
-        
-        // Format currency
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(amount);
-        }
-        
-        // Generate dashboard content
-        function generateDashboardContent() {
-            const metrics = financialModel.getDashboardMetrics();
-            const projection = financialModel.growthProjection;
-            
-            if (!metrics) {
-                return '';
-            }
-            
-            return `
-                <!-- Account balance card -->
-                <div class="card" id="balanceCard">
-                    <div class="card-title">Current Balance</div>
-                    <div class="balance">${formatCurrency(metrics.currentBalance)}</div>
-                </div>
-                
-                <!-- Growth projection -->
-                <div class="card" id="projectionCard">
-                    <div class="card-title">Growth Projection</div>
-                    <div class="metrics-row">
-                        <div class="metric">
-                            <div class="metric-label">Projected Balance (10 Years)</div>
-                            <div class="metric-value">${formatCurrency(metrics.projectedBalance)}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Total Growth</div>
-                            <div class="metric-value">${formatCurrency(metrics.totalGrowth)}</div>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="metrics-row">
-                        <div class="metric">
-                            <div class="metric-label">Annual Growth Rate</div>
-                            <div class="metric-value">${(metrics.annualGrowthRate * 100).toFixed(1)}%</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Total Customer Deposits</div>
-                            <div class="metric-value">${formatCurrency(metrics.totalCustomerDeposits)}</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Yearly projection table -->
-                <div class="card" id="tableCard">
-                    <div class="card-title">Yearly Projection</div>
-                    <div class="table-header">
-                        <div class="table-header-cell" style="width: 60px;">Year</div>
-                        <div class="table-header-cell">Balance</div>
-                    </div>
-                    <div class="table-container">
-                        ${projection.map(proj => `
-                            <div class="table-row">
-                                <div class="table-cell" style="width: 60px;">${proj.id}</div>
-                                <div class="table-cell">${formatCurrency(proj.beginningCashValue)}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Screen navigation
         document.addEventListener('DOMContentLoaded', function() {
             const splashScreen = document.getElementById('splashScreen');
             const welcomeScreen = document.getElementById('welcomeScreen');
@@ -795,15 +603,148 @@
             const dollarSign = document.getElementById('dollarSign');
             const tabs = document.querySelectorAll('.tab');
             
-            // Show splash screen for 2.5 seconds, then show welcome screen with animation
-            setTimeout(function() {
-                splashScreen.classList.add('hidden');
-                setTimeout(function() {
-                    welcomeScreen.classList.remove('hidden');
-                }, 300);
-            }, 2500);
+            // Financial model
+            const financialModel = {
+                initialDeposit: 10000,
+                monthlyDeposit: 2000,
+                vieDeposit: 48000,
+                annualGrowthRate: 0.12,
+                
+                get accountBalance() {
+                    return this.initialDeposit + this.vieDeposit;
+                },
+                
+                getProjection: function() {
+                    const projection = [];
+                    const annualDepositAmount = this.monthlyDeposit * 12;
+                    let currentBalance = this.accountBalance;
+                    const currentYear = new Date().getFullYear();
+                    
+                    // Initial year
+                    projection.push({
+                        id: "YR00",
+                        year: currentYear,
+                        balance: currentBalance
+                    });
+                    
+                    // 10 year projection
+                    for (let i = 1; i <= 10; i++) {
+                        const growth = currentBalance * this.annualGrowthRate;
+                        currentBalance += annualDepositAmount + growth;
+                        
+                        projection.push({
+                            id: `YR${i.toString().padStart(2, '0')}`,
+                            year: currentYear + i,
+                            balance: currentBalance
+                        });
+                    }
+                    
+                    return projection;
+                },
+                
+                getMetrics: function() {
+                    const projection = this.getProjection();
+                    const finalBalance = projection[projection.length - 1].balance;
+                    const totalDeposits = this.initialDeposit + (this.monthlyDeposit * 12 * 10);
+                    const totalGrowth = finalBalance - totalDeposits - this.vieDeposit;
+                    
+                    return {
+                        currentBalance: this.accountBalance,
+                        projectedBalance: finalBalance,
+                        totalGrowth: totalGrowth,
+                        totalDeposits: totalDeposits
+                    };
+                }
+            };
             
-            // Add loading animation to discover button
+            // Format currency
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(amount);
+            }
+            
+            // Generate dashboard content
+            function generateDashboardContent() {
+                const metrics = financialModel.getMetrics();
+                const projection = financialModel.getProjection();
+                
+                let html = `
+                    <!-- Account balance card -->
+                    <div class="card" id="balanceCard">
+                        <div class="card-title">Current Balance</div>
+                        <div class="balance">${formatCurrency(metrics.currentBalance)}</div>
+                    </div>
+                    
+                    <!-- Growth projection -->
+                    <div class="card" id="projectionCard">
+                        <div class="card-title">Growth Projection</div>
+                        <div class="metrics-row">
+                            <div class="metric">
+                                <div class="metric-label">Projected Balance (10 Years)</div>
+                                <div class="metric-value">${formatCurrency(metrics.projectedBalance)}</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Total Growth</div>
+                                <div class="metric-value">${formatCurrency(metrics.totalGrowth)}</div>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="metrics-row">
+                            <div class="metric">
+                                <div class="metric-label">Annual Growth Rate</div>
+                                <div class="metric-value">${(financialModel.annualGrowthRate * 100).toFixed(1)}%</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Total Customer Deposits</div>
+                                <div class="metric-value">${formatCurrency(metrics.totalDeposits)}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Yearly projection table -->
+                    <div class="card" id="tableCard">
+                        <div class="card-title">Yearly Projection</div>
+                        <div class="table-header">
+                            <div class="table-header-cell" style="width: 60px;">Year</div>
+                            <div class="table-header-cell">Balance</div>
+                        </div>
+                        <div class="table-container">
+                `;
+                
+                projection.forEach(year => {
+                    html += `
+                        <div class="table-row">
+                            <div class="table-cell" style="width: 60px;">${year.id}</div>
+                            <div class="table-cell">${formatCurrency(year.balance)}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+                
+                return html;
+            }
+            
+            // Immediately show welcome screen for debugging
+            console.log("DOM Content Loaded");
+            console.log("Splash screen element:", splashScreen);
+            console.log("Welcome screen element:", welcomeScreen);
+            
+            // Force welcome screen to be visible immediately for debugging
+            splashScreen.style.display = 'none';
+            welcomeScreen.classList.remove('hidden');
+            welcomeScreen.style.opacity = '1';
+            welcomeScreen.style.transform = 'translateY(0)';
+            console.log("Welcome screen should now be visible");
+            
+            // Add loading animation
             const loading = document.createElement('div');
             loading.className = 'loading';
             dashboardScreen.appendChild(loading);
@@ -832,7 +773,7 @@
                 monthlyDepositInput.value = formatCurrency(value).replace('$', '');
             }
             
-            // Handle discover button click with animation
+            // Handle discover button click
             discoverButton.addEventListener('click', function() {
                 // Add click effect
                 this.style.transform = 'scale(0.95)';
@@ -843,19 +784,19 @@
                 // Show loading animation
                 loading.style.display = 'block';
                 
+                // Get monthly deposit amount
                 const monthlyDeposit = parseFloat(monthlyDepositInput.value.replace(/[^0-9.-]+/g, '')) || 0;
+                financialModel.monthlyDeposit = monthlyDeposit;
                 
                 // Add a slight delay to simulate calculation
                 setTimeout(function() {
-                    // Set a default initial deposit
-                    financialModel.setInitialDeposit(10000);
-                    financialModel.setMonthlyDeposit(monthlyDeposit);
-                    
+                    // Generate dashboard content
                     dashboardContent.innerHTML = generateDashboardContent();
                     
                     // Hide loading animation
                     loading.style.display = 'none';
                     
+                    // Transition to dashboard screen
                     welcomeScreen.classList.add('hidden');
                     setTimeout(function() {
                         dashboardScreen.classList.remove('hidden');
@@ -876,7 +817,7 @@
                 }, 800);
             });
             
-            // Handle tab clicks with animation
+            // Handle tab clicks
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
                     // Don't do anything if already active
@@ -888,6 +829,7 @@
                         this.style.transform = 'scale(1)';
                     }, 150);
                     
+                    // Update active tab
                     tabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     
@@ -913,64 +855,26 @@
                                         document.getElementById('tableCard').classList.add('animated');
                                     }, 100);
                                 }, 100);
-                            }, 300);
-                        }, 300);
-                    }, 800);
-                });
-                
-                // Handle tab clicks with animation
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', function() {
-                        // Don't do anything if already active
-                        if (this.classList.contains('active')) return;
+                            }, 100);
+                        } else {
+                            dashboardContent.innerHTML = `
+                                <div class="card animated" id="emptyCard">
+                                    <div class="card-title">${tabName.charAt(0).toUpperCase() + tabName.slice(1)} Tab</div>
+                                    <p style="color: white; text-align: center;">This tab is not implemented in the demo.</p>
+                                    <p style="color: white; text-align: center; opacity: 0.7;">In the full app, this tab would show ${tabName === 'payments' ? 'payment history and options' : tabName === 'records' ? 'transaction records and statements' : 'account settings and preferences'}.</p>
+                                </div>
+                            `;
+                        }
                         
-                        // Add click effect
-                        this.style.transform = 'scale(0.95)';
+                        // Fade in new content
                         setTimeout(() => {
-                            this.style.transform = 'scale(1)';
-                        }, 150);
-                        
-                        tabs.forEach(t => t.classList.remove('active'));
-                        this.classList.add('active');
-                        
-                        // Fade out current content
-                        dashboardContent.style.opacity = '0';
-                        dashboardContent.style.transform = 'translateY(10px)';
-                        
-                        const tabName = this.getAttribute('data-tab');
-                        
-                        // Add a slight delay for animation
-                        setTimeout(() => {
-                            if (tabName === 'home') {
-                                dashboardContent.innerHTML = generateDashboardContent();
-                                
-                                // Animate cards
-                                setTimeout(() => {
-                                    document.getElementById('balanceCard').classList.add('animated');
-                                    
-                                    setTimeout(() => {
-                                        document.getElementById('projectionCard').classList.add('animated');
-                                        
-                                        setTimeout(() => {
-                                            document.getElementById('tableCard').classList.add('animated');
-                                        }, 100);
-                                    }, 100);
-                                }, 300);
-                            } else {
-                                dashboardContent.innerHTML = `
-                                    <div class="card animated" id="emptyCard">
-                                        <div class="card-title">${tabName.charAt(0).toUpperCase() + tabName.slice(1)} Tab</div>
-                                        <p style="color: white; text-align: center;">This tab is not implemented in the demo.</p>
-                                        <p style="color: white; text-align: center; opacity: 0.7;">In the full app, this tab would show ${tabName === 'payments' ? 'payment history and options' : tabName === 'records' ? 'transaction records and statements' : 'account settings and preferences'}.</p>
-                                    </div>
-                                `;
-                            }
-                            
-                            // Fade in new content
-                            setTimeout(() => {
-                                dashboardContent.style.opacity = '1';
-                                dashboardContent.style.transform = 'translateY(0)';
-                            }, 50);
-                        }, 300);
-                    });
+                            dashboardContent.style.opacity = '1';
+                            dashboardContent.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, 300);
                 });
+            });
+        });
+    </script>
+</body>
+</html>
