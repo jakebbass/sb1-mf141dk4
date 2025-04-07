@@ -38,12 +38,12 @@ struct AssetValueView: View {
                                 .foregroundColor(.white)
                                 .frame(width: 40, alignment: .leading)
                             
-                            Text("$" + String(format: "%.0f", entry.assetValue))
+                            Text(formatCurrency(entry.assetValue))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 80, alignment: .trailing)
                             
-                            Text("$" + String(format: "%.0f", entry.availableForSpending))
+                            Text(formatCurrency(entry.availableForSpending))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 100, alignment: .trailing)
@@ -57,5 +57,18 @@ struct AssetValueView: View {
             }
             .frame(height: 220)
         }
+    }
+    
+    // Helper function to format currency with commas and rounded to nearest dollar
+    private func formatCurrency(_ value: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.minimumFractionDigits = 0
+        
+        // Round to nearest dollar
+        let roundedValue = round(value)
+        
+        return numberFormatter.string(from: NSNumber(value: roundedValue)) ?? "$0"
     }
 }

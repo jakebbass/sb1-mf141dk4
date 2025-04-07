@@ -45,7 +45,7 @@ struct YearlyProjectionView: View {
                                 .foregroundColor(.white)
                                 .frame(width: 60, alignment: .center)
                             
-                            Text("$" + String(format: "%.2f", projection.beginningCashValue))
+                            Text(formatCurrency(projection.beginningCashValue))
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -94,6 +94,19 @@ struct YearlyProjectionView: View {
         
         return creditingRates[yearId] ?? 0.08 // Default to 8% if not found
     }
+    
+    // Helper function to format currency with commas and rounded to nearest dollar
+    private func formatCurrency(_ value: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.minimumFractionDigits = 0
+        
+        // Round to nearest dollar
+        let roundedValue = round(value)
+        
+        return numberFormatter.string(from: NSNumber(value: roundedValue)) ?? "$0"
+    }
 }
 
 // Lift-Off Loan View
@@ -139,17 +152,17 @@ struct LiftOffLoanView: View {
                                 .foregroundColor(.white)
                                 .frame(width: 40, alignment: .leading)
                             
-                            Text("$" + String(format: "%.0f", entry.startingBalance))
+                            Text(formatCurrency(entry.startingBalance))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 70, alignment: .trailing)
                             
-                            Text("$" + String(format: "%.0f", entry.youPaid))
+                            Text(formatCurrency(entry.youPaid))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 70, alignment: .trailing)
                             
-                            Text("$" + String(format: "%.0f", entry.endingBalance))
+                            Text(formatCurrency(entry.endingBalance))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 70, alignment: .trailing)
@@ -163,6 +176,19 @@ struct LiftOffLoanView: View {
             }
             .frame(height: 220)
         }
+    }
+    
+    // Helper function to format currency with commas and rounded to nearest dollar
+    private func formatCurrency(_ value: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.minimumFractionDigits = 0
+        
+        // Round to nearest dollar
+        let roundedValue = round(value)
+        
+        return numberFormatter.string(from: NSNumber(value: roundedValue)) ?? "$0"
     }
 }
 
@@ -214,12 +240,12 @@ struct AccumulationView: View {
                                 .foregroundColor(.white)
                                 .frame(width: 40, alignment: .center)
                             
-                            Text("$" + String(format: "%.0f", entry.customerDeposits))
+                            Text(formatCurrency(entry.customerDeposits))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 70, alignment: .trailing)
                             
-                            Text("$" + String(format: "%.0f", entry.policyCashValue))
+                            Text(formatCurrency(entry.policyCashValue))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 90, alignment: .trailing)
@@ -233,6 +259,19 @@ struct AccumulationView: View {
             }
             .frame(height: 220)
         }
+    }
+    
+    // Helper function to format currency with commas and rounded to nearest dollar
+    private func formatCurrency(_ value: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.minimumFractionDigits = 0
+        
+        // Round to nearest dollar
+        let roundedValue = round(value)
+        
+        return numberFormatter.string(from: NSNumber(value: roundedValue)) ?? "$0"
     }
 }
 
@@ -279,17 +318,17 @@ struct CustomerSpendingView: View {
                                 .foregroundColor(.white)
                                 .frame(width: 40, alignment: .leading)
                             
-                            Text("$" + String(format: "%.0f", entry.spent))
+                            Text(formatCurrency(entry.spent))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 70, alignment: .trailing)
                             
-                            Text("$" + String(format: "%.0f", entry.loanInterest))
+                            Text(formatCurrency(entry.loanInterest))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 70, alignment: .trailing)
                             
-                            Text("$" + String(format: "%.0f", entry.endLoanBalance))
+                            Text(formatCurrency(entry.endLoanBalance))
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 90, alignment: .trailing)
@@ -303,5 +342,18 @@ struct CustomerSpendingView: View {
             }
             .frame(height: 220)
         }
+    }
+    
+    // Helper function to format currency with commas and rounded to nearest dollar
+    private func formatCurrency(_ value: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.minimumFractionDigits = 0
+        
+        // Round to nearest dollar
+        let roundedValue = round(value)
+        
+        return numberFormatter.string(from: NSNumber(value: roundedValue)) ?? "$0"
     }
 }

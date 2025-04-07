@@ -134,7 +134,20 @@ struct TransactionRow: View {
     
     private func formattedAmount(_ transaction: Transaction) -> String {
         let prefix = transaction.type == .deposit || transaction.type == .interest ? "+" : "-"
-        return "\(prefix)$" + String(format: "%.2f", transaction.amount)
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.minimumFractionDigits = 0
+        
+        // Round to nearest dollar
+        let roundedValue = round(transaction.amount)
+        
+        // Remove the currency symbol since we're adding our own prefix
+        let formattedValue = numberFormatter.string(from: NSNumber(value: roundedValue)) ?? "$0"
+        let valueWithoutSymbol = formattedValue.replacingOccurrences(of: numberFormatter.currencySymbol, with: "")
+        
+        return "\(prefix)$\(valueWithoutSymbol)"
     }
 }
 
@@ -190,7 +203,7 @@ struct AccountTabView: View {
                         Text("Account Balance:")
                             .foregroundColor(.white.opacity(0.8))
                         Spacer()
-                        Text("$" + String(format: "%.2f", financialModel.accountBalance))
+                        Text(formatCurrency(financialModel.accountBalance))
                             .foregroundColor(.white)
                     }
                     
@@ -198,7 +211,7 @@ struct AccountTabView: View {
                         Text("Initial Deposit:")
                             .foregroundColor(.white.opacity(0.8))
                         Spacer()
-                        Text("$" + String(format: "%.2f", financialModel.depositAmount))
+                        Text(formatCurrency(financialModel.depositAmount))
                             .foregroundColor(.white)
                     }
                     
@@ -269,5 +282,18 @@ struct AccountTabView: View {
             }
             .padding()
         }
+    }
+    
+    // Helper function to format currency with commas and rounded to nearest dollar
+    private func formatCurrency(_ value: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.minimumFractionDigits = 0
+        
+        // Round to nearest dollar
+        let roundedValue = round(value)
+        
+        return numberFormatter.string(from: NSNumber(value: roundedValue)) ?? "$0"
     }
 }

@@ -1,15 +1,50 @@
 {
   "images" : [
     {
-      "filename" : "dashboard-background.png",
+      "filename" : "Dashboard Background dark.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Dashboard BackgroundDark.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Dashboard Background dark@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Dashboard BackgroundDark@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Dashboard Background dark@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Dashboard BackgroundDark@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

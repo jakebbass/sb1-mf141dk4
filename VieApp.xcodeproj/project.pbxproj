@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,14 @@
 		04A1B8032B9F1E6000C88D1A /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B8022B9F1E6000C88D1A /* WelcomeScreen.swift */; };
 		04A1B8052B9F1E7000C88D1A /* DashboardScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B8042B9F1E7000C88D1A /* DashboardScreen.swift */; };
 		04A1B8072B9F1E8000C88D1A /* FinancialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B8062B9F1E8000C88D1A /* FinancialModel.swift */; };
+		04A1B8092B9F1E9000C88D1A /* AllViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B8082B9F1E9000C88D1A /* AllViews.swift */; };
+		04A1B80B2B9F1EA000C88D1A /* AssetValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B80A2B9F1EA000C88D1A /* AssetValueView.swift */; };
+		04A1B80D2B9F1EB000C88D1A /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B80C2B9F1EB000C88D1A /* HomeTabView.swift */; };
+		04A1B80F2B9F1EC000C88D1A /* ImportViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B80E2B9F1EC000C88D1A /* ImportViews.swift */; };
+		04A1B8112B9F1ED000C88D1A /* ProjectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B8102B9F1ED000C88D1A /* ProjectionViews.swift */; };
+		04A1B8132B9F1EE000C88D1A /* RemainingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B8122B9F1EE000C88D1A /* RemainingViews.swift */; };
+		04A1B8152B9F1EF000C88D1A /* TabViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B8142B9F1EF000C88D1A /* TabViews.swift */; };
+		04A1B8172B9F1F0000C88D1A /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1B8162B9F1F0000C88D1A /* Views.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +33,15 @@
 		04A1B8022B9F1E6000C88D1A /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
 		04A1B8042B9F1E7000C88D1A /* DashboardScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardScreen.swift; sourceTree = "<group>"; };
 		04A1B8062B9F1E8000C88D1A /* FinancialModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancialModel.swift; sourceTree = "<group>"; };
+		04A1B8082B9F1E9000C88D1A /* AllViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllViews.swift; sourceTree = "<group>"; };
+		04A1B80A2B9F1EA000C88D1A /* AssetValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetValueView.swift; sourceTree = "<group>"; };
+		04A1B80C2B9F1EB000C88D1A /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
+		04A1B80E2B9F1EC000C88D1A /* ImportViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViews.swift; sourceTree = "<group>"; };
+		04A1B8102B9F1ED000C88D1A /* ProjectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectionViews.swift; sourceTree = "<group>"; };
+		04A1B8122B9F1EE000C88D1A /* RemainingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingViews.swift; sourceTree = "<group>"; };
+		04A1B8142B9F1EF000C88D1A /* TabViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViews.swift; sourceTree = "<group>"; };
+		04A1B8162B9F1F0000C88D1A /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
+		27C064B02DA435F900CCA79B /* VieApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VieApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,11 +74,20 @@
 		04A1B7EE2B9F1E0000C88D1A /* VieApp */ = {
 			isa = PBXGroup;
 			children = (
+				27C064B02DA435F900CCA79B /* VieApp.entitlements */,
 				04A1B7EF2B9F1E0000C88D1A /* VieApp.swift */,
 				04A1B8002B9F1E5000C88D1A /* SplashScreen.swift */,
 				04A1B8022B9F1E6000C88D1A /* WelcomeScreen.swift */,
 				04A1B8042B9F1E7000C88D1A /* DashboardScreen.swift */,
 				04A1B8062B9F1E8000C88D1A /* FinancialModel.swift */,
+				04A1B8082B9F1E9000C88D1A /* AllViews.swift */,
+				04A1B80A2B9F1EA000C88D1A /* AssetValueView.swift */,
+				04A1B80C2B9F1EB000C88D1A /* HomeTabView.swift */,
+				04A1B80E2B9F1EC000C88D1A /* ImportViews.swift */,
+				04A1B8102B9F1ED000C88D1A /* ProjectionViews.swift */,
+				04A1B8122B9F1EE000C88D1A /* RemainingViews.swift */,
+				04A1B8142B9F1EF000C88D1A /* TabViews.swift */,
+				04A1B8162B9F1F0000C88D1A /* Views.swift */,
 				04A1B7F32B9F1E0100C88D1A /* Assets.xcassets */,
 				04A1B7F52B9F1E0100C88D1A /* Preview Content */,
 			);
@@ -112,7 +138,6 @@
 				};
 			};
 			buildConfigurationList = 04A1B7E72B9F1E0000C88D1A /* Build configuration list for PBXProject "VieApp" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -120,6 +145,7 @@
 				Base,
 			);
 			mainGroup = 04A1B7E32B9F1E0000C88D1A;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 04A1B7ED2B9F1E0000C88D1A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -150,6 +176,14 @@
 				04A1B8012B9F1E5000C88D1A /* SplashScreen.swift in Sources */,
 				04A1B8072B9F1E8000C88D1A /* FinancialModel.swift in Sources */,
 				04A1B8052B9F1E7000C88D1A /* DashboardScreen.swift in Sources */,
+				04A1B8092B9F1E9000C88D1A /* AllViews.swift in Sources */,
+				04A1B80B2B9F1EA000C88D1A /* AssetValueView.swift in Sources */,
+				04A1B80D2B9F1EB000C88D1A /* HomeTabView.swift in Sources */,
+				04A1B80F2B9F1EC000C88D1A /* ImportViews.swift in Sources */,
+				04A1B8112B9F1ED000C88D1A /* ProjectionViews.swift in Sources */,
+				04A1B8132B9F1EE000C88D1A /* RemainingViews.swift in Sources */,
+				04A1B8152B9F1EF000C88D1A /* TabViews.swift in Sources */,
+				04A1B8172B9F1F0000C88D1A /* Views.swift in Sources */,
 				04A1B7F02B9F1E0000C88D1A /* VieApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,6 +196,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -192,6 +227,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RCPV4JYL9A;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -225,6 +261,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -255,6 +292,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RCPV4JYL9A;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -281,12 +319,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VieApp/VieApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VieApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = RCPV4JYL9A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Vie;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -297,7 +337,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.VieApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viedashboard.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -310,12 +350,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VieApp/VieApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VieApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = RCPV4JYL9A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Vie;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -326,7 +368,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.VieApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viedashboard.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

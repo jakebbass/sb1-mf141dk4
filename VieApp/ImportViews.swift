@@ -1,15 +1,5 @@
 import SwiftUI
 
-// Import all views from AllViews.swift
-@_exported import struct VieApp.HomeTabView
-@_exported import struct VieApp.YearlyProjectionView
-@_exported import struct VieApp.LiftOffLoanView
-@_exported import struct VieApp.AccumulationView
-@_exported import struct VieApp.CustomerSpendingView
-@_exported import struct VieApp.AssetValueView
-@_exported import struct VieApp.PaymentsTabView
-@_exported import struct VieApp.TransactionRow
-
-// Import all views from RemainingViews.swift
-@_exported import struct VieApp.RecordsTabView
-@_exported import struct VieApp.AccountTabView
+// This file is no longer needed as all views are now properly included in the project.
+// The @_exported import approach was causing issues with the project structure.
+// All views are now directly referenced in the project.pbxproj file.

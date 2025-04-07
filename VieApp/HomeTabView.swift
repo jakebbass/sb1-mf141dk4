@@ -15,7 +15,7 @@ struct HomeTabView: View {
                         .font(.custom("Inter", size: 20).weight(.semibold))
                         .foregroundColor(.white)
                     
-                    Text("$" + String(format: "%.2f", financialModel.accountBalance))
+                    Text(formatCurrency(financialModel.accountBalance))
                         .font(.custom("Inter", size: 36).weight(.bold))
                         .foregroundColor(.white)
                 }
@@ -42,7 +42,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalDeposits))
+                            Text(formatCurrency(financialModel.dashboardMetrics.totalDeposits))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -54,7 +54,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalWithdrawals))
+                            Text(formatCurrency(financialModel.dashboardMetrics.totalWithdrawals))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -70,7 +70,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalInterest))
+                            Text(formatCurrency(financialModel.dashboardMetrics.totalInterest))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -82,7 +82,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalFees))
+                            Text(formatCurrency(financialModel.dashboardMetrics.totalFees))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -110,7 +110,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.projectedBalance))
+                            Text(formatCurrency(financialModel.dashboardMetrics.projectedBalance))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -122,7 +122,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalGrowth))
+                            Text(formatCurrency(financialModel.dashboardMetrics.totalGrowth))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -150,7 +150,7 @@ struct HomeTabView: View {
                                 .font(.custom("Inter", size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                             
-                            Text("$" + String(format: "%.2f", financialModel.dashboardMetrics.totalCustomerDeposits))
+                            Text(formatCurrency(financialModel.dashboardMetrics.totalCustomerDeposits))
                                 .font(.custom("Inter", size: 18).weight(.medium))
                                 .foregroundColor(.white)
                         }
@@ -219,5 +219,18 @@ struct HomeTabView: View {
             // Reset animation state when view disappears
             animateCards = false
         }
+    }
+    
+    // Helper function to format currency with commas and rounded to nearest dollar
+    private func formatCurrency(_ value: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.minimumFractionDigits = 0
+        
+        // Round to nearest dollar
+        let roundedValue = round(value)
+        
+        return numberFormatter.string(from: NSNumber(value: roundedValue)) ?? "$0"
     }
 }
