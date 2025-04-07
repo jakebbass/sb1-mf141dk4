@@ -17,14 +17,14 @@ struct DashboardScreen: View {
                 Image("header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(height: 140)
+                    .frame(height: 160)
                 
                 // Using only the header image without custom logo
                 VStack {
                     Text("Your Capital Account")
                         .font(.custom("Inter", size: 22).weight(.bold))
                         .foregroundColor(.white)
-                        .padding(.top, 40)
+                        .padding(.top, 60) // Increased padding to avoid overlap
                     
                     Text("Explained")
                         .font(.custom("Inter", size: 18).weight(.medium))
@@ -34,7 +34,7 @@ struct DashboardScreen: View {
                 .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 140)
+            .frame(height: 160) // Increased height to accommodate the title
             
             // Main content area
             ZStack {

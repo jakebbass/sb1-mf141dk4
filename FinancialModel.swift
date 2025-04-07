@@ -340,6 +340,7 @@ class FinancialModel: ObservableObject {
             let liftOffLoan = liftOffLoanSchedule[i]
             
             // Calculate asset value
+            // Spreadsheet formula: =Accumulation[Policy Cash Value]-Customer_Spending[End Loan Balance]
             let assetValueAmount = accumulation.policyCashValue - spending.endLoanBalance
             
             // Calculate owed on lift-off loan
@@ -362,6 +363,51 @@ class FinancialModel: ObservableObject {
                 availableForSpending: availableForSpending
             ))
         }
+    }
+    
+    // Method to calculate Totals based on the spreadsheet's Totals tab
+    func calculateTotals() -> [TotalsEntry] {
+        var entries: [TotalsEntry] = []
+        
+        // Ensure we have the necessary data
+        guard !accumulationGrowth.isEmpty && !customerSpending.isEmpty else {
+            return entries
+        }
+        
+        // For each year, calculate the cumulative deposits and expenses
+        for i in 0..<accumulationGrowth.count {
+            let yearId = "YR\(String(format: "%02d", i))"
+            
+            // Calculate cumulative deposits (SUMIF logic from spreadsheet)
+            // =SUMIF(Accumulation[Id], "<=YRxx", Accumulation[Customer Deposits])
+            var cumulativeDeposits = 0.0
+            for j in 0...i {
+                if j < accumulationGrowth.count {
+                    cumulativeDeposits += accumulationGrowth[j].customerDeposits
+                }
+            }
+            
+            // Calculate cumulative expenses (SUMIF logic from spreadsheet)
+            // =SUMIF(Customer_Spending[Id], "<=YRxx", Customer_Spending[Spent])
+            var cumulativeExpenses = 0.0
+            for j in 0...i {
+                if j < customerSpending.count {
+                    cumulativeExpenses += customerSpending[j].spent
+                }
+            }
+            
+            // Calculate net value (deposits - expenses)
+            let netValue = cumulativeDeposits - cumulativeExpenses
+            
+            entries.append(TotalsEntry(
+                id: yearId,
+                deposits: cumulativeDeposits,
+                expenses: cumulativeExpenses,
+                netValue: netValue
+            ))
+        }
+        
+        return entries
     }
     
     // Method to generate growth projection (simplified version for dashboard)
@@ -582,4 +628,12 @@ struct AssetValueEntry: Identifiable {
     let owedOnLiftOffLoan: Double
     let availableForManagedInvesting: Double
     let availableForSpending: Double
+}
+
+// Totals model
+struct TotalsEntry: Identifiable {
+    let id: String // YR01, YR02, etc.
+    let deposits: Double
+    let expenses: Double
+    let netValue: Double
 }

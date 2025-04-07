@@ -7,7 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #004d40 0%, #008066 100%);
@@ -15,7 +15,6 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #333;
         }
         
         .phone {
@@ -33,10 +32,6 @@
             transition: transform 0.3s ease;
         }
         
-        .phone:hover {
-            transform: scale(1);
-        }
-        
         .screen {
             width: 100%;
             height: 100%;
@@ -52,184 +47,9 @@
             transform: translateY(20px);
         }
         
-        /* Splash Screen */
-        .splash-screen {
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            position: relative;
-        }
-        
-        .splash-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            animation: fadeIn 1s ease-out;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Welcome Screen */
-        .welcome-screen {
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-            position: relative;
-        }
-        
-        .welcome-header {
-            width: 100%;
-            height: 140px;
-            background-image: url('public/images/header.png');
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        
-        .welcome-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin-top: 30px;
-            text-align: center;
-            font-family: 'Inter', sans-serif;
-            color: #000;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        .input-section {
-            margin-top: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        .input-label {
-            font-size: 18px;
-            text-align: center;
-            font-family: 'Inter', sans-serif;
-            color: rgba(0, 0, 0, 0.8);
-            padding: 0 20px;
-        }
-        
-        .input-container {
-            position: relative;
-            height: 70px;
-            margin-top: 10px;
-        }
-        
-        .user-input-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            position: absolute;
-            top: 0;
-            left: 0;
-            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
-        }
-        
-        .input-field {
-            position: relative;
-            z-index: 1;
-            height: 50px;
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 0 20px;
-            font-size: 20px;
-            font-weight: 500;
-            text-align: center;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .input-field:focus {
-            outline: none;
-            transform: scale(1.05);
-            transition: transform 0.3s ease;
-        }
-        
-        .dollar-sign {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 20px;
-            font-weight: 500;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        .discover-button {
-            width: 160px;
-            height: 50px;
-            background: linear-gradient(to right, #008066, #009977);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: 600;
-            margin: 60px auto 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .discover-button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
-            opacity: 0.5;
-        }
-        
-        .discover-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-        }
-        
-        .discover-button:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Dashboard Screen */
-        .dashboard-screen {
-            background-color: #004d40;
-            background-image: url('public/images/dashboard-background.png');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        
         .dashboard-header {
             width: 100%;
-            height: 140px;
+            height: 160px; /* Increased height to accommodate the title */
             background-image: url('public/images/header.png');
             background-size: cover;
             background-position: center;
@@ -243,317 +63,52 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 40px;
+            margin-top: 60px; /* Increased padding to avoid overlap */
         }
         
         .dashboard-title {
             font-size: 22px;
             color: white;
-            font-family: 'Inter', sans-serif;
             font-weight: 700;
-            position: relative;
-            z-index: 1;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
         
         .dashboard-subtitle {
             font-size: 18px;
             color: rgba(255, 255, 255, 0.9);
-            font-family: 'Inter', sans-serif;
             font-weight: 500;
-            position: relative;
-            z-index: 1;
             margin-top: 2px;
         }
         
-        .dashboard-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-        }
-        
-        .card {
-            background: linear-gradient(135deg, rgba(0, 102, 85, 1) 0%, rgba(0, 77, 64, 1) 100%);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            animation: fadeIn 0.5s ease-out;
-            transform: translateY(20px);
-            opacity: 0;
-        }
-        
-        .card.animated {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 15px;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .balance {
-            font-size: 36px;
-            font-weight: bold;
-            color: white;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .metrics-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .metric {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .metric-label {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 5px;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .metric-value {
-            font-size: 18px;
-            color: white;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-        }
-        
-        .divider {
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.2);
-            margin: 15px 0;
-        }
-        
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 15px;
+        .projection-tab {
+            padding: 8px 12px;
             background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-        
-        .table-header-cell {
-            font-size: 14px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .table-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 15px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-        
-        .table-cell {
-            font-size: 14px;
+            border-radius: 4px;
             color: white;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .table-container {
-            max-height: 220px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-        
-        .tab-bar {
-            height: 70px;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .tab {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #999;
             font-size: 12px;
-            font-family: 'Inter', sans-serif;
             cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 8px 0;
-            width: 25%;
-            position: relative;
-        }
-        
-        .tab.active {
-            color: #008066;
-        }
-        
-        .tab-background {
-            position: absolute;
-            width: 70px;
-            height: 50px;
-            background-color: rgba(0, 128, 102, 0.1);
-            border-radius: 8px;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.3s ease;
-        }
-        
-        .tab.active .tab-background {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .tab:hover {
-            color: #008066;
-            transform: translateY(-2px);
-        }
-        
-        .tab-icon {
-            width: 26px;
-            height: 26px;
-            margin-bottom: 6px;
-            transition: all 0.3s ease;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 1;
-        }
-        
-        .tab-icon.home {
-            background-image: url('public/images/huge-icon-interface-outline-home-04.png');
-        }
-        
-        .tab-icon.payments {
-            background-image: url('public/images/huge-icon-interface-outline-money.png');
-        }
-        
-        .tab-icon.records {
-            background-image: url('public/images/huge-icon-interface-outline-collection.png');
-        }
-        
-        .tab-icon.account {
-            background-image: url('public/images/huge-icon-interface-outline-user.png');
-        }
-        
-        .tab-text {
-            z-index: 1;
-        }
-        
-        .tab:hover .tab-icon {
-            transform: scale(1.2);
-        }
-        
-        /* Additional styles for polish */
-        .title-container {
+            flex: 1;
             text-align: center;
-            margin-bottom: 30px;
-            position: fixed;
-            top: 20px;
-            left: 0;
-            right: 0;
-            z-index: 100;
+            transition: all 0.3s ease;
         }
         
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            margin-bottom: 5px;
+        .projection-tab.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
         }
         
-        .subtitle {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .instructions {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
-        }
-        
-        /* Loading animation */
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
+        .projection-view {
             display: none;
         }
         
-        @keyframes spin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
+        .projection-view.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Splash Screen -->
     <div class="phone">
-        <div class="screen splash-screen" id="splashScreen">
-            <img src="public/images/splashscreen.png" class="splash-image" alt="Splash Screen">
-        </div>
-        
-        <!-- Welcome Screen -->
-        <div class="screen welcome-screen hidden" id="welcomeScreen">
-            <div class="welcome-header"></div>
-            
-            <div class="welcome-title">Welcome to Vie!</div>
-            
-            <div class="input-section">
-                <div class="input-group">
-                    <div class="input-label">How much would you like to deposit monthly?</div>
-                    <div class="input-container">
-                        <img src="public/images/user-input.png" class="user-input-image" alt="User input background">
-                        <input type="text" class="input-field" id="monthlyDeposit" placeholder="Enter amount" value="2000" title="Monthly deposit amount">
-                        <div class="dollar-sign" id="dollarSign">$</div>
-                    </div>
-                </div>
-            </div>
-            
-            <button class="discover-button" id="discoverButton">Discover</button>
-        </div>
-        
-        <!-- Dashboard Screen -->
-        <div class="screen dashboard-screen hidden" id="dashboardScreen">
+        <div class="screen dashboard-screen">
             <div class="dashboard-header">
                 <div class="dashboard-title-container">
                     <div class="dashboard-title">Your Capital Account</div>
@@ -561,319 +116,16 @@
                 </div>
             </div>
             
-            <div class="dashboard-content" id="dashboardContent">
-                <!-- Content will be dynamically generated -->
-            </div>
-            
-            <div class="tab-bar">
-                <div class="tab active" data-tab="home">
-                    <div class="tab-background"></div>
-                    <div class="tab-icon home"></div>
-                    <div class="tab-text">Home</div>
-                </div>
-                <div class="tab" data-tab="payments">
-                    <div class="tab-background"></div>
-                    <div class="tab-icon payments"></div>
-                    <div class="tab-text">Payments</div>
-                </div>
-                <div class="tab" data-tab="records">
-                    <div class="tab-background"></div>
-                    <div class="tab-icon records"></div>
-                    <div class="tab-text">Records</div>
-                </div>
-                <div class="tab" data-tab="account">
-                    <div class="tab-background"></div>
-                    <div class="tab-icon account"></div>
-                    <div class="tab-text">Account</div>
-                </div>
+            <div class="dashboard-content">
+                <!-- Demo of the fixed header with proper spacing -->
             </div>
         </div>
     </div>
-
-    <!-- Title and instructions removed to fix the white screen issue -->
     
     <script>
+        // This is just a demo to show the fixed header
         document.addEventListener('DOMContentLoaded', function() {
-            const splashScreen = document.getElementById('splashScreen');
-            const welcomeScreen = document.getElementById('welcomeScreen');
-            const dashboardScreen = document.getElementById('dashboardScreen');
-            const dashboardContent = document.getElementById('dashboardContent');
-            const discoverButton = document.getElementById('discoverButton');
-            const monthlyDepositInput = document.getElementById('monthlyDeposit');
-            const dollarSign = document.getElementById('dollarSign');
-            const tabs = document.querySelectorAll('.tab');
-            
-            // Financial model
-            const financialModel = {
-                initialDeposit: 10000,
-                monthlyDeposit: 2000,
-                vieDeposit: 48000,
-                annualGrowthRate: 0.12,
-                
-                get accountBalance() {
-                    return this.initialDeposit + this.vieDeposit;
-                },
-                
-                getProjection: function() {
-                    const projection = [];
-                    const annualDepositAmount = this.monthlyDeposit * 12;
-                    let currentBalance = this.accountBalance;
-                    const currentYear = new Date().getFullYear();
-                    
-                    // Initial year
-                    projection.push({
-                        id: "YR00",
-                        year: currentYear,
-                        balance: currentBalance
-                    });
-                    
-                    // 10 year projection
-                    for (let i = 1; i <= 10; i++) {
-                        const growth = currentBalance * this.annualGrowthRate;
-                        currentBalance += annualDepositAmount + growth;
-                        
-                        projection.push({
-                            id: `YR${i.toString().padStart(2, '0')}`,
-                            year: currentYear + i,
-                            balance: currentBalance
-                        });
-                    }
-                    
-                    return projection;
-                },
-                
-                getMetrics: function() {
-                    const projection = this.getProjection();
-                    const finalBalance = projection[projection.length - 1].balance;
-                    const totalDeposits = this.initialDeposit + (this.monthlyDeposit * 12 * 10);
-                    const totalGrowth = finalBalance - totalDeposits - this.vieDeposit;
-                    
-                    return {
-                        currentBalance: this.accountBalance,
-                        projectedBalance: finalBalance,
-                        totalGrowth: totalGrowth,
-                        totalDeposits: totalDeposits
-                    };
-                }
-            };
-            
-            // Format currency
-            function formatCurrency(amount) {
-                return new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                }).format(amount);
-            }
-            
-            // Generate dashboard content
-            function generateDashboardContent() {
-                const metrics = financialModel.getMetrics();
-                const projection = financialModel.getProjection();
-                
-                let html = `
-                    <!-- Account balance card -->
-                    <div class="card" id="balanceCard">
-                        <div class="card-title">Current Balance</div>
-                        <div class="balance">${formatCurrency(metrics.currentBalance)}</div>
-                    </div>
-                    
-                    <!-- Growth projection -->
-                    <div class="card" id="projectionCard">
-                        <div class="card-title">Growth Projection</div>
-                        <div class="metrics-row">
-                            <div class="metric">
-                                <div class="metric-label">Projected Balance (10 Years)</div>
-                                <div class="metric-value">${formatCurrency(metrics.projectedBalance)}</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-label">Total Growth</div>
-                                <div class="metric-value">${formatCurrency(metrics.totalGrowth)}</div>
-                            </div>
-                        </div>
-                        <div class="divider"></div>
-                        <div class="metrics-row">
-                            <div class="metric">
-                                <div class="metric-label">Annual Growth Rate</div>
-                                <div class="metric-value">${(financialModel.annualGrowthRate * 100).toFixed(1)}%</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-label">Total Customer Deposits</div>
-                                <div class="metric-value">${formatCurrency(metrics.totalDeposits)}</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Yearly projection table -->
-                    <div class="card" id="tableCard">
-                        <div class="card-title">Yearly Projection</div>
-                        <div class="table-header">
-                            <div class="table-header-cell" style="width: 60px;">Year</div>
-                            <div class="table-header-cell">Balance</div>
-                        </div>
-                        <div class="table-container">
-                `;
-                
-                projection.forEach(year => {
-                    html += `
-                        <div class="table-row">
-                            <div class="table-cell" style="width: 60px;">${year.id}</div>
-                            <div class="table-cell">${formatCurrency(year.balance)}</div>
-                        </div>
-                    `;
-                });
-                
-                html += `
-                        </div>
-                    </div>
-                `;
-                
-                return html;
-            }
-            
-            // Immediately show welcome screen for debugging
-            console.log("DOM Content Loaded");
-            console.log("Splash screen element:", splashScreen);
-            console.log("Welcome screen element:", welcomeScreen);
-            
-            // Force welcome screen to be visible immediately for debugging
-            splashScreen.style.display = 'none';
-            welcomeScreen.classList.remove('hidden');
-            welcomeScreen.style.opacity = '1';
-            welcomeScreen.style.transform = 'translateY(0)';
-            console.log("Welcome screen should now be visible");
-            
-            // Add loading animation
-            const loading = document.createElement('div');
-            loading.className = 'loading';
-            dashboardScreen.appendChild(loading);
-            
-            // Handle input field focus
-            monthlyDepositInput.addEventListener('focus', function() {
-                this.value = this.value.replace(/[^0-9.-]+/g, '');
-                dollarSign.style.display = 'none';
-                this.style.transform = 'scale(1.05)';
-            });
-            
-            monthlyDepositInput.addEventListener('blur', function() {
-                this.style.transform = 'scale(1)';
-                if (this.value) {
-                    const value = parseFloat(this.value.replace(/[^0-9.-]+/g, '')) || 0;
-                    this.value = formatCurrency(value).replace('$', '');
-                    dollarSign.style.display = 'block';
-                } else {
-                    dollarSign.style.display = 'block';
-                }
-            });
-            
-            // Format initial values
-            if (monthlyDepositInput.value) {
-                const value = parseFloat(monthlyDepositInput.value.replace(/[^0-9.-]+/g, '')) || 0;
-                monthlyDepositInput.value = formatCurrency(value).replace('$', '');
-            }
-            
-            // Handle discover button click
-            discoverButton.addEventListener('click', function() {
-                // Add click effect
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-                
-                // Show loading animation
-                loading.style.display = 'block';
-                
-                // Get monthly deposit amount
-                const monthlyDeposit = parseFloat(monthlyDepositInput.value.replace(/[^0-9.-]+/g, '')) || 0;
-                financialModel.monthlyDeposit = monthlyDeposit;
-                
-                // Add a slight delay to simulate calculation
-                setTimeout(function() {
-                    // Generate dashboard content
-                    dashboardContent.innerHTML = generateDashboardContent();
-                    
-                    // Hide loading animation
-                    loading.style.display = 'none';
-                    
-                    // Transition to dashboard screen
-                    welcomeScreen.classList.add('hidden');
-                    setTimeout(function() {
-                        dashboardScreen.classList.remove('hidden');
-                        
-                        // Animate cards
-                        setTimeout(() => {
-                            document.getElementById('balanceCard').classList.add('animated');
-                            
-                            setTimeout(() => {
-                                document.getElementById('projectionCard').classList.add('animated');
-                                
-                                setTimeout(() => {
-                                    document.getElementById('tableCard').classList.add('animated');
-                                }, 100);
-                            }, 100);
-                        }, 300);
-                    }, 300);
-                }, 800);
-            });
-            
-            // Handle tab clicks
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Don't do anything if already active
-                    if (this.classList.contains('active')) return;
-                    
-                    // Add click effect
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 150);
-                    
-                    // Update active tab
-                    tabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Fade out current content
-                    dashboardContent.style.opacity = '0';
-                    dashboardContent.style.transform = 'translateY(10px)';
-                    
-                    const tabName = this.getAttribute('data-tab');
-                    
-                    // Add a slight delay for animation
-                    setTimeout(() => {
-                        if (tabName === 'home') {
-                            dashboardContent.innerHTML = generateDashboardContent();
-                            
-                            // Animate cards
-                            setTimeout(() => {
-                                document.getElementById('balanceCard').classList.add('animated');
-                                
-                                setTimeout(() => {
-                                    document.getElementById('projectionCard').classList.add('animated');
-                                    
-                                    setTimeout(() => {
-                                        document.getElementById('tableCard').classList.add('animated');
-                                    }, 100);
-                                }, 100);
-                            }, 100);
-                        } else {
-                            dashboardContent.innerHTML = `
-                                <div class="card animated" id="emptyCard">
-                                    <div class="card-title">${tabName.charAt(0).toUpperCase() + tabName.slice(1)} Tab</div>
-                                    <p style="color: white; text-align: center;">This tab is not implemented in the demo.</p>
-                                    <p style="color: white; text-align: center; opacity: 0.7;">In the full app, this tab would show ${tabName === 'payments' ? 'payment history and options' : tabName === 'records' ? 'transaction records and statements' : 'account settings and preferences'}.</p>
-                                </div>
-                            `;
-                        }
-                        
-                        // Fade in new content
-                        setTimeout(() => {
-                            dashboardContent.style.opacity = '1';
-                            dashboardContent.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, 300);
-                });
-            });
+            console.log("Demo loaded successfully");
         });
     </script>
 </body>

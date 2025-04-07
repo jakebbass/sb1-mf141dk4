@@ -4,7 +4,7 @@ import SwiftUI
 struct HomeTabView: View {
     @ObservedObject private var financialModel = FinancialModel.shared
     @State private var animateCards = false
-    @State private var selectedProjectionType = 0 // 0: Summary, 1: Lift-Off Loan, 2: Accumulation, 3: Customer Spending, 4: Asset Value
+    @State private var selectedProjectionType = 0 // 0: Summary, 1: Totals, 2: Lift-Off Loan, 3: Accumulation, 4: Customer Spending, 5: Asset Value
     
     var body: some View {
         ScrollView {
@@ -175,10 +175,11 @@ struct HomeTabView: View {
                     // Segmented control for projection type
                     Picker("Projection Type", selection: $selectedProjectionType) {
                         Text("Summary").tag(0)
-                        Text("Lift-Off Loan").tag(1)
-                        Text("Accumulation").tag(2)
-                        Text("Spending").tag(3)
-                        Text("Asset Value").tag(4)
+                        Text("Totals").tag(1)
+                        Text("Lift-Off").tag(2)
+                        Text("Accumulation").tag(3)
+                        Text("Spending").tag(4)
+                        Text("Asset Value").tag(5)
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.bottom, 10)
@@ -186,12 +187,14 @@ struct HomeTabView: View {
                     // Display the selected projection type
                     switch selectedProjectionType {
                     case 1:
-                        LiftOffLoanView()
+                        TotalsView()
                     case 2:
-                        AccumulationView()
+                        LiftOffLoanView()
                     case 3:
-                        CustomerSpendingView()
+                        AccumulationView()
                     case 4:
+                        CustomerSpendingView()
+                    case 5:
                         AssetValueView()
                     default:
                         YearlyProjectionView()
