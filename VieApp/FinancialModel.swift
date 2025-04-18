@@ -15,10 +15,15 @@ class FinancialModel: ObservableObject {
     @Published var accumulationGrowth: [AccumulationEntry] = []
     @Published var customerSpending: [CustomerSpendingEntry] = []
     @Published var assetValue: [AssetValueEntry] = []
+    @Published var totalsEntries: [TotalsEntry] = []
     
     // Constants for calculations
-    private let initialVieDeposit: Double = 48000.0
-    private let annualGrowthRate: Double = 0.12 // 12% annual growth
+    private let liftOffLoanInterestRate: Double = 0.15 // 15% annual interest for Lift-Off Loan
+    private let liftOffLoanTerm: Int = 20 // 20-year term for Lift-Off Loan
+    private let policyLoanInterestRate: Double = 0.03 // 3% annual interest for policy loans
+    private let financeChargeRate: Double = 0.02 // 2% finance charge
+    private let spendableGrowthThreshold: Double = 1000.0 // $1,000 threshold for spendable growth
+    private let spendableGrowthLTV: Double = 0.25 // 25% LTV for spendable growth
     
     // Singleton instance for easy access throughout the app
     static let shared = FinancialModel()
@@ -31,6 +36,9 @@ class FinancialModel: ObservableObject {
     // Method to set the initial deposit
     func setInitialDeposit(amount: Double) {
         self.depositAmount = amount
+        
+        // Calculate initial Vie deposit based on monthly deposit
+        let initialVieDeposit = monthlyDepositAmount * 24
         self.accountBalance = amount + initialVieDeposit
         
         // Add the deposit as a transaction
@@ -57,28 +65,16 @@ class FinancialModel: ObservableObject {
         // Update dashboard metrics
         updateDashboardMetrics()
         
-        // Generate growth projection
-        generateGrowthProjection()
-        
-        // Generate other projections
-        generateLiftOffLoanSchedule()
-        generateAccumulationGrowth()
-        generateCustomerSpending()
-        generateAssetValue()
+        // Generate projections
+        runCalculations()
     }
     
     // Method to set the monthly deposit amount
     func setMonthlyDepositAmount(amount: Double) {
         self.monthlyDepositAmount = amount
         
-        // Generate growth projection
-        generateGrowthProjection()
-        
-        // Generate other projections
-        generateLiftOffLoanSchedule()
-        generateAccumulationGrowth()
-        generateCustomerSpending()
-        generateAssetValue()
+        // Run all calculations
+        runCalculations()
     }
     
     // Method to add a new transaction
@@ -150,7 +146,8 @@ class FinancialModel: ObservableObject {
         let annualDepositAmount = monthlyDepositAmount * 12
         
         // Initial values
-        var currentBalance = accountBalance
+        let initialVieDeposit = monthlyDepositAmount * 24
+        var currentBalance = depositAmount + initialVieDeposit
         let currentYear = Calendar.current.component(.year, from: Date())
         
         // Add initial year (YR00)
@@ -162,10 +159,13 @@ class FinancialModel: ObservableObject {
             customerDeposit: depositAmount
         ))
         
-        // Generate projection for 10 years
-        for i in 1...10 {
+        // Generate projection for 25 years
+        for i in 1...25 {
+            // Get crediting rate for this year
+            let creditingRate = getCreditingRate(for: "YR\(String(format: "%02d", i))")
+            
             // Calculate growth for the year
-            let growth = currentBalance * annualGrowthRate
+            let growth = currentBalance * creditingRate
             
             // Add customer deposit
             currentBalance += annualDepositAmount
@@ -179,7 +179,8 @@ class FinancialModel: ObservableObject {
                 year: currentYear + i,
                 beginningCashValue: currentBalance,
                 vieDeposit: 0, // Only initial deposit
-                customerDeposit: annualDepositAmount
+                customerDeposit: annualDepositAmount,
+                creditingRate: creditingRate
             ))
         }
         
@@ -192,43 +193,69 @@ class FinancialModel: ObservableObject {
         // Clear existing schedule
         liftOffLoanSchedule.removeAll()
         
-        // Initial values
-        let loanAmount = 100000.0
-        let interestRate = 0.05 // 5% interest rate
-        let paymentAmount = 12000.0 // Annual payment
+        // Initial loan balance (YR00) = Planned Monthly Deposit * 2 * 12
+        let initialLoanBalance = monthlyDepositAmount * 2 * 12
         
-        var balance = loanAmount
+        // Calculate annual loan payment using PMT formula
+        let annualLoanPayment = calculatePMT(rate: liftOffLoanInterestRate, nper: liftOffLoanTerm, pv: initialLoanBalance)
+        
         let currentYear = Calendar.current.component(.year, from: Date())
         
         // Add initial year (YR00)
         liftOffLoanSchedule.append(LiftOffLoanEntry(
             id: "YR00",
             year: currentYear,
-            startingBalance: balance,
+            startingBalance: initialLoanBalance,
+            interestPayment: 0,
+            principalPayment: 0,
             youPaid: 0,
-            endingBalance: balance
+            financeCharge: 0,
+            endingBalance: initialLoanBalance
         ))
         
-        // Generate schedule for 10 years
-        for i in 1...10 {
+        // Generate schedule for 20 years (loan term)
+        var balance = initialLoanBalance
+        
+        for i in 1...liftOffLoanTerm {
             // Calculate interest for the year
-            let interest = balance * interestRate
+            let interestPayment = balance * liftOffLoanInterestRate
             
-            // Add interest to balance
-            balance += interest
+            // Calculate principal payment
+            let principalPayment = annualLoanPayment - interestPayment
             
-            // Make payment
-            let payment = min(paymentAmount, balance)
-            balance -= payment
+            // Calculate finance charge (2% of beginning balance)
+            let financeCharge = balance * financeChargeRate
+            
+            // Update balance
+            balance -= principalPayment
             
             // Add to schedule
             liftOffLoanSchedule.append(LiftOffLoanEntry(
                 id: "YR\(String(format: "%02d", i))",
                 year: currentYear + i,
-                startingBalance: balance + payment,
-                youPaid: payment,
+                startingBalance: balance + principalPayment,
+                interestPayment: interestPayment,
+                principalPayment: principalPayment,
+                youPaid: annualLoanPayment,
+                financeCharge: financeCharge,
                 endingBalance: balance
             ))
+        }
+        
+        // Add remaining years up to 25 if needed
+        if liftOffLoanTerm < 25 {
+            for i in (liftOffLoanTerm + 1)...25 {
+                liftOffLoanSchedule.append(LiftOffLoanEntry(
+                    id: "YR\(String(format: "%02d", i))",
+                    year: currentYear + i,
+                    startingBalance: 0,
+                    interestPayment: 0,
+                    principalPayment: 0,
+                    youPaid: 0,
+                    financeCharge: 0,
+                    endingBalance: 0
+                ))
+            }
         }
     }
     
@@ -241,40 +268,50 @@ class FinancialModel: ObservableObject {
         let annualDepositAmount = monthlyDepositAmount * 12
         
         // Initial values
-        var cashValue = accountBalance
+        let initialVieDeposit = monthlyDepositAmount * 24
+        var beginningCashValue = depositAmount + initialVieDeposit
         let currentYear = Calendar.current.component(.year, from: Date())
         
         // Add initial year (YR00)
         accumulationGrowth.append(AccumulationEntry(
             id: "YR00",
             year: currentYear,
+            beginningCashValue: beginningCashValue,
             policyCredit: 0.0,
+            amountCredited: 0.0,
             customerDeposits: depositAmount,
-            policyCashValue: cashValue
+            vieDeposit: initialVieDeposit,
+            policyCashValue: beginningCashValue
         ))
         
-        // Generate growth for 10 years
-        for i in 1...10 {
+        // Generate growth for 25 years
+        for i in 1...25 {
             // Get crediting rate for this year
             let creditingRate = getCreditingRate(for: "YR\(String(format: "%02d", i))")
             
-            // Calculate growth for the year
-            let growth = cashValue * creditingRate
+            // Calculate amount credited (policy credit)
+            let amountCredited = beginningCashValue * creditingRate
             
             // Add customer deposit
-            cashValue += annualDepositAmount
+            let totalDeposited = annualDepositAmount
             
-            // Add growth
-            cashValue += growth
+            // Calculate new policy cash value
+            let newPolicyCashValue = beginningCashValue + amountCredited + totalDeposited
             
             // Add to growth
             accumulationGrowth.append(AccumulationEntry(
                 id: "YR\(String(format: "%02d", i))",
                 year: currentYear + i,
+                beginningCashValue: beginningCashValue,
                 policyCredit: creditingRate,
+                amountCredited: amountCredited,
                 customerDeposits: annualDepositAmount,
-                policyCashValue: cashValue
+                vieDeposit: 0, // Only initial deposit
+                policyCashValue: newPolicyCashValue
             ))
+            
+            // Update beginning cash value for next year
+            beginningCashValue = newPolicyCashValue
         }
     }
     
@@ -283,42 +320,58 @@ class FinancialModel: ObservableObject {
         // Clear existing spending
         customerSpending.removeAll()
         
-        // Initial values
-        let loanAmount = 0.0
-        let interestRate = 0.05 // 5% interest rate
-        let spendingAmount = 10000.0 // Annual spending
+        // Calculate annual spending amount (equal to annualized monthly deposit)
+        let annualSpendingAmount = monthlyDepositAmount * 12
         
-        var balance = loanAmount
+        // Initial values
+        var beginningLoanBalance = 0.0
         let currentYear = Calendar.current.component(.year, from: Date())
         
         // Add initial year (YR00)
         customerSpending.append(CustomerSpendingEntry(
             id: "YR00",
             year: currentYear,
+            beginningLoanBalance: beginningLoanBalance,
             spent: 0,
             loanInterest: 0,
-            endLoanBalance: balance
+            liftOffLoanPayment: 0,
+            financeCharge: 0,
+            totalLoanPayment: 0,
+            endLoanBalance: beginningLoanBalance
         ))
         
-        // Generate spending for 10 years
-        for i in 1...10 {
-            // Calculate interest for the year
-            let interest = balance * interestRate
+        // Generate spending for 25 years
+        for i in 1...25 {
+            // Calculate interest on loan
+            let loanInterest = beginningLoanBalance * policyLoanInterestRate
             
-            // Add interest to balance
-            balance += interest
+            // Get lift-off loan payment for this year
+            let liftOffLoanPayment = i <= liftOffLoanSchedule.count ? liftOffLoanSchedule[i].youPaid : 0
             
-            // Add spending
-            balance += spendingAmount
+            // Get finance charge for this year
+            let financeCharge = i <= liftOffLoanSchedule.count ? liftOffLoanSchedule[i].financeCharge : 0
+            
+            // Calculate total loan payment
+            let totalLoanPayment = liftOffLoanPayment + financeCharge
+            
+            // Calculate end loan balance
+            let endLoanBalance = beginningLoanBalance + loanInterest + annualSpendingAmount - totalLoanPayment
             
             // Add to spending
             customerSpending.append(CustomerSpendingEntry(
                 id: "YR\(String(format: "%02d", i))",
                 year: currentYear + i,
-                spent: spendingAmount,
-                loanInterest: interest,
-                endLoanBalance: balance
+                beginningLoanBalance: beginningLoanBalance,
+                spent: annualSpendingAmount,
+                loanInterest: loanInterest,
+                liftOffLoanPayment: liftOffLoanPayment,
+                financeCharge: financeCharge,
+                totalLoanPayment: totalLoanPayment,
+                endLoanBalance: endLoanBalance
             ))
+            
+            // Update beginning loan balance for next year
+            beginningLoanBalance = endLoanBalance
         }
     }
     
@@ -327,36 +380,39 @@ class FinancialModel: ObservableObject {
         // Clear existing asset value
         assetValue.removeAll()
         
-        // Initial values
-        var assetValue = accountBalance
-        let availablePercentage = 0.8 // 80% available for spending
         let currentYear = Calendar.current.component(.year, from: Date())
         
-        // Add initial year (YR00)
-        self.assetValue.append(AssetValueEntry(
-            id: "YR00",
-            year: currentYear,
-            assetValue: assetValue,
-            availableForSpending: assetValue * availablePercentage
-        ))
-        
-        // Generate asset value for 10 years
-        for i in 1...10 {
-            // Get crediting rate for this year
-            let creditingRate = getCreditingRate(for: "YR\(String(format: "%02d", i))")
+        // Generate asset value for 25 years
+        for i in 0...25 {
+            let yearId = "YR\(String(format: "%02d", i))"
             
-            // Calculate growth for the year
-            let growth = assetValue * creditingRate
+            // Get policy value from accumulation growth
+            let policyValue = i < accumulationGrowth.count ? accumulationGrowth[i].policyCashValue : 0
             
-            // Add growth
-            assetValue += growth
+            // Get outstanding loans from customer spending
+            let outstandingLoans = i < customerSpending.count ? customerSpending[i].endLoanBalance : 0
+            
+            // Calculate asset value
+            let calculatedAssetValue = policyValue - outstandingLoans
+            
+            // Get owed on lift-off loan
+            let owedOnLiftOffLoan = i < liftOffLoanSchedule.count ? liftOffLoanSchedule[i].endingBalance : 0
+            
+            // Calculate available for spending (growth)
+            var availableForSpending = 0.0
+            if calculatedAssetValue - owedOnLiftOffLoan > spendableGrowthThreshold {
+                availableForSpending = spendableGrowthLTV * (calculatedAssetValue - owedOnLiftOffLoan - spendableGrowthThreshold)
+            }
             
             // Add to asset value
             self.assetValue.append(AssetValueEntry(
-                id: "YR\(String(format: "%02d", i))",
+                id: yearId,
                 year: currentYear + i,
-                assetValue: assetValue,
-                availableForSpending: assetValue * availablePercentage
+                policyValue: policyValue,
+                outstandingLoans: outstandingLoans,
+                assetValue: calculatedAssetValue,
+                owedOnLiftOffLoan: owedOnLiftOffLoan,
+                availableForSpending: availableForSpending
             ))
         }
     }
@@ -370,61 +426,93 @@ class FinancialModel: ObservableObject {
             // Update dashboard metrics
             dashboardMetrics.projectedBalance = latestProjection.beginningCashValue
             dashboardMetrics.totalYears = growthProjection.count - 1 // Exclude YR00
-            dashboardMetrics.annualGrowthRate = annualGrowthRate
+            
+            // Use the first year's crediting rate as the annual growth rate
+            if growthProjection.count > 1 {
+                dashboardMetrics.annualGrowthRate = growthProjection[1].creditingRate
+            }
             
             // Calculate total customer deposits
             let totalCustomerDeposits = growthProjection.reduce(0) { $0 + $1.customerDeposit }
             dashboardMetrics.totalCustomerDeposits = totalCustomerDeposits
+            
+            // Calculate initial Vie deposit
+            let initialVieDeposit = monthlyDepositAmount * 24
             
             // Calculate total growth
             dashboardMetrics.totalGrowth = latestProjection.beginningCashValue - totalCustomerDeposits - initialVieDeposit
         }
     }
     
-    // Method to connect to a spreadsheet (now implemented locally)
-    func connectToSpreadsheet(url: String) {
-        // Parse the Google Sheets URL to extract the spreadsheet ID
-        if let spreadsheetId = extractSpreadsheetId(from: url) {
-            print("Using spreadsheet ID: \(spreadsheetId) for local calculations")
+    // Method to calculate totals
+    func calculateTotals() -> [TotalsEntry] {
+        // Clear existing totals
+        totalsEntries.removeAll()
+        
+        let currentYear = Calendar.current.component(.year, from: Date())
+        
+        // Generate totals for 25 years
+        for i in 0...25 {
+            let yearId = "YR\(String(format: "%02d", i))"
             
-            // Run calculations
-            runCalculations()
-        } else {
-            print("Invalid Google Sheets URL")
+            // Get customer deposits from accumulation growth
+            let deposits = i < accumulationGrowth.count ? 
+                (i == 0 ? accumulationGrowth[i].customerDeposits + accumulationGrowth[i].vieDeposit : accumulationGrowth[i].customerDeposits) : 0
+            
+            // Get expenses (loan payments) from customer spending
+            let expenses = i < customerSpending.count ? customerSpending[i].totalLoanPayment : 0
+            
+            // Get asset value
+            let netValue = i < assetValue.count ? assetValue[i].assetValue : 0
+            
+            // Add to totals
+            totalsEntries.append(TotalsEntry(
+                id: yearId,
+                year: currentYear + i,
+                deposits: deposits,
+                expenses: expenses,
+                netValue: netValue
+            ))
         }
+        
+        return totalsEntries
     }
     
-    // Method to extract spreadsheet ID from Google Sheets URL
-    private func extractSpreadsheetId(from url: String) -> String? {
-        // Example URL: https://docs.google.com/spreadsheets/d/19fGZzSkW8HVPenz27QAcM-YNDyCdytaK_nxKN0a_VHc/edit
-        let pattern = "spreadsheets/d/([a-zA-Z0-9-_]+)"
-        
-        if let regex = try? NSRegularExpression(pattern: pattern, options: []) {
-            let nsString = url as NSString
-            let matches = regex.matches(in: url, options: [], range: NSRange(location: 0, length: nsString.length))
-            
-            if let match = matches.first {
-                let range = match.range(at: 1)
-                return nsString.substring(with: range)
-            }
-        }
-        
-        return nil
-    }
-    
-    // Method to run calculations (now implemented locally)
+    // Method to run all calculations
     func runCalculations() {
         // Generate growth projection
         generateGrowthProjection()
         
-        // Generate other projections
+        // Generate lift-off loan schedule
         generateLiftOffLoanSchedule()
+        
+        // Generate accumulation growth
         generateAccumulationGrowth()
+        
+        // Generate customer spending
         generateCustomerSpending()
+        
+        // Generate asset value
         generateAssetValue()
+        
+        // Calculate totals
+        calculateTotals()
         
         // Update dashboard metrics
         updateDashboardMetrics()
+        updateDashboardMetricsWithProjection()
+    }
+    
+    // Helper function to calculate PMT (payment for a loan)
+    private func calculatePMT(rate: Double, nper: Int, pv: Double) -> Double {
+        // PMT formula: PMT = (PV * r * (1 + r)^n) / ((1 + r)^n - 1)
+        let r = rate
+        let n = Double(nper)
+        
+        let numerator = pv * r * pow(1 + r, n)
+        let denominator = pow(1 + r, n) - 1
+        
+        return numerator / denominator
     }
     
     // Helper function to get the crediting rate for a specific year
@@ -502,6 +590,7 @@ struct YearlyProjection: Identifiable {
     let beginningCashValue: Double
     let vieDeposit: Double
     let customerDeposit: Double
+    var creditingRate: Double = 0.0
 }
 
 // Lift-Off Loan Entry model
@@ -509,7 +598,10 @@ struct LiftOffLoanEntry: Identifiable {
     let id: String // YR01, YR02, etc.
     let year: Int
     let startingBalance: Double
+    let interestPayment: Double
+    let principalPayment: Double
     let youPaid: Double
+    let financeCharge: Double
     let endingBalance: Double
 }
 
@@ -517,8 +609,11 @@ struct LiftOffLoanEntry: Identifiable {
 struct AccumulationEntry: Identifiable {
     let id: String // YR01, YR02, etc.
     let year: Int
+    let beginningCashValue: Double
     let policyCredit: Double
+    let amountCredited: Double
     let customerDeposits: Double
+    let vieDeposit: Double
     let policyCashValue: Double
 }
 
@@ -526,8 +621,12 @@ struct AccumulationEntry: Identifiable {
 struct CustomerSpendingEntry: Identifiable {
     let id: String // YR01, YR02, etc.
     let year: Int
+    let beginningLoanBalance: Double
     let spent: Double
     let loanInterest: Double
+    let liftOffLoanPayment: Double
+    let financeCharge: Double
+    let totalLoanPayment: Double
     let endLoanBalance: Double
 }
 
@@ -535,6 +634,18 @@ struct CustomerSpendingEntry: Identifiable {
 struct AssetValueEntry: Identifiable {
     let id: String // YR01, YR02, etc.
     let year: Int
+    let policyValue: Double
+    let outstandingLoans: Double
     let assetValue: Double
+    let owedOnLiftOffLoan: Double
     let availableForSpending: Double
+}
+
+// Totals Entry model
+struct TotalsEntry: Identifiable {
+    let id: String // YR01, YR02, etc.
+    let year: Int
+    let deposits: Double
+    let expenses: Double
+    let netValue: Double
 }

@@ -3,9 +3,24 @@ import SwiftUI
 // Totals View - Displays data from the Totals tab of the spreadsheet
 struct TotalsView: View {
     @ObservedObject private var financialModel = FinancialModel.shared
+    @State private var showDetailedView = false
+    @State private var showCumulativeTotals = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
+            // Toggle for detailed view
+            HStack {
+                Toggle("Show Detailed View", isOn: $showDetailedView)
+                    .foregroundColor(.white)
+                
+                Spacer()
+                
+                Toggle("Cumulative", isOn: $showCumulativeTotals)
+                    .foregroundColor(.white)
+            }
+            .padding(.horizontal, 15)
+            .padding(.bottom, 5)
+            
             // Table header
             HStack {
                 Text("Year")
@@ -36,22 +51,41 @@ struct TotalsView: View {
             // Table rows
             ScrollView {
                 VStack(spacing: 8) {
-                    ForEach(calculateTotals()) { entry in
+                    let totals = financialModel.totalsEntries
+                    
+                    ForEach(totals) { entry in
                         HStack {
                             Text(entry.id)
                                 .font(.custom("Inter", size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: 40, alignment: .leading)
                             
-                            Text(formatCurrency(entry.deposits))
-                                .font(.custom("Inter", size: 12))
-                                .foregroundColor(.white)
-                                .frame(width: 80, alignment: .trailing)
-                            
-                            Text(formatCurrency(entry.expenses))
-                                .font(.custom("Inter", size: 12))
-                                .foregroundColor(.white)
-                                .frame(width: 80, alignment: .trailing)
+                            if showCumulativeTotals {
+                                // Calculate cumulative values up to this entry
+                                let index = totals.firstIndex(where: { $0.id == entry.id }) ?? 0
+                                let cumulativeDeposits = totals.prefix(through: index).reduce(0) { $0 + $1.deposits }
+                                let cumulativeExpenses = totals.prefix(through: index).reduce(0) { $0 + $1.expenses }
+                                
+                                Text(formatCurrency(cumulativeDeposits))
+                                    .font(.custom("Inter", size: 12))
+                                    .foregroundColor(.white)
+                                    .frame(width: 80, alignment: .trailing)
+                                
+                                Text(formatCurrency(cumulativeExpenses))
+                                    .font(.custom("Inter", size: 12))
+                                    .foregroundColor(.white)
+                                    .frame(width: 80, alignment: .trailing)
+                            } else {
+                                Text(formatCurrency(entry.deposits))
+                                    .font(.custom("Inter", size: 12))
+                                    .foregroundColor(.white)
+                                    .frame(width: 80, alignment: .trailing)
+                                
+                                Text(formatCurrency(entry.expenses))
+                                    .font(.custom("Inter", size: 12))
+                                    .foregroundColor(.white)
+                                    .frame(width: 80, alignment: .trailing)
+                            }
                             
                             Text(formatCurrency(entry.netValue))
                                 .font(.custom("Inter", size: 12))
